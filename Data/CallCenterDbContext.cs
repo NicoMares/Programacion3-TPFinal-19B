@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Progra3_TPFinal_19B.Models;
+using System;
 
 namespace Progra3_TPFinal_19B.Data
 {
@@ -7,6 +8,11 @@ namespace Progra3_TPFinal_19B.Data
     {
         public CallCenterDbContext(DbContextOptions<CallCenterDbContext> options) : base(options) { }
         public DbSet<User> Users => Set<User>();
+        public DbSet<Customer> Customers => Set<Customer>();
+        public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
+        
+
+
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
@@ -17,7 +23,7 @@ namespace Progra3_TPFinal_19B.Data
 
                 e.Property(x => x.Id)
                     .HasColumnType("uniqueidentifier")
-                    .HasDefaultValueSql("NEWID()");                 // si la tabla tiene DEFAULT, EF lo usa; si no, esto lo fuerza
+                    .HasDefaultValueSql("NEWID()");                 
 
                 e.Property(x => x.Username).HasMaxLength(256);
                 e.Property(x => x.FullName).HasMaxLength(256);

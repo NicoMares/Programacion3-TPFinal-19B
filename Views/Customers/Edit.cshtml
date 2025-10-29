@@ -1,0 +1,44 @@
+﻿@model Progra3_TPFinal_19B.Models.ViewModels.CustomerCreateViewModel
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<div class="card">
+    <div class="card-header bg-light">Editar Cliente</div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post" asp-route-id="@ViewBag.CustomerId" class="row g-3" novalidate>
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="DocumentNumber"></label>
+                <input class="form-control" asp-for="DocumentNumber" />
+                <span class="text-danger" asp-validation-for="DocumentNumber"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Email"></label>
+                <input class="form-control" asp-for="Email" type="email" />
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Phone"></label>
+                <input class="form-control" asp-for="Phone" />
+                <span class="text-danger" asp-validation-for="Phone"></span>
+            </div>
+
+            <div class="col-12 d-flex gap-2">
+                <button class="btn btn-primary">Guardar cambios</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

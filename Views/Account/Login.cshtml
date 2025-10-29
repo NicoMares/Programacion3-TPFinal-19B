@@ -1,17 +1,17 @@
-﻿@* Views/Account/Login.cshtml *@
-@{
+﻿@{
     ViewData["Title"] = "Iniciar sesión";
     var returnUrl = (string?)ViewData["ReturnUrl"];
 }
+
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
         <div class="card shadow-sm">
             <div class="card-body p-4">
                 <h3 class="mb-3 text-center">Iniciar sesión</h3>
 
-                @if (TempData["RegisterOk"] is string ok)
+                @if (TempData["Msg"] != null)
                 {
-                    <div class="alert alert-success" role="alert">@ok</div>
+                    <div class="alert alert-success">@TempData["Msg"]</div>
                 }
 
                 <form asp-action="Login" method="post" novalidate>
@@ -24,14 +24,9 @@
                         <input id="email" name="email" type="email" class="form-control" required />
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label class="form-label" for="password">Contraseña</label>
                         <input id="password" name="password" type="password" class="form-control" required />
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        <input name="rememberMe" type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Recordarme</label>
                     </div>
 
                     <button class="btn btn-primary w-100" type="submit">Ingresar</button>
@@ -39,6 +34,10 @@
 
                 <div class="text-center mt-3">
                     <a asp-action="Register" asp-route-returnUrl="@returnUrl">¿No tenés cuenta? Registrate</a>
+                </div>
+
+                <div class="text-center mt-2">
+                    <a asp-action="ForgotPassword">¿Olvidaste tu contraseña?</a>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-// Program.cs
+﻿// Program.cs
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -6,8 +6,13 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Progra3_TPFinal_19B.Data;
 using Progra3_TPFinal_19B.Models;
+using Progra3_TPFinal_19B.Models.Email;
+using Progra3_TPFinal_19B.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email"));
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
 // DbContext (SQL Server)
 builder.Services.AddDbContext<CallCenterDbContext>(options =>
@@ -53,7 +58,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Rutas MVC por convenci�n
+// Rutas MVC por convención
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

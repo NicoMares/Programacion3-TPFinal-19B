@@ -97,3 +97,7 @@ C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\obj\Debug\net8.0\refint\Progr
 C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\obj\Debug\net8.0\Progra3-TPFinal-19B.pdb
 C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\obj\Debug\net8.0\Progra3-TPFinal-19B.genruntimeconfig.cache
 C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\obj\Debug\net8.0\ref\Progra3-TPFinal-19B.dll
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\obj\Debug\net8.0\Progra3-TPFinal-19B.sourcelink.json
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\bin\Debug\net8.0\MailKit.dll
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\bin\Debug\net8.0\MimeKit.dll

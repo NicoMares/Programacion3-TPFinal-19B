@@ -1,9 +1,10 @@
 ﻿@* Views/Shared/_Layout.cshtml *@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - Progra3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -12,25 +13,41 @@
         <div class="container">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">Progra3</a>
 
-            @if (User.Identity?.IsAuthenticated ?? false)
-            {
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Calls" asp-action="Index">Llamados</a></li>
-                    @* … el resto del menú *@
-                </ul>
-                <form class="d-flex" asp-controller="Account" asp-action="Logout" method="post">
-                    @Html.AntiForgeryToken()
-                    <button class="btn btn-outline-light">Salir</button>
-                </form>
-            }
-            else
-            {
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Iniciar sesión</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register">Registrarse</a></li>
-                </ul>
-            }
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div id="topNav" class="collapse navbar-collapse">
+                @if (User.Identity?.IsAuthenticated ?? false)
+                {
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
+
+                        <!-- Gestión de Clientes -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Clientes</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-controller="Customers" asp-action="Index">Listar</a></li>
+                                <li><a class="dropdown-item" asp-controller="Customers" asp-action="Create">Nuevo</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item"><a class="nav-link" asp-controller="Calls" asp-action="Index">Llamados</a></li>
+                    </ul>
+
+                    <form class="d-flex" asp-controller="Account" asp-action="Logout" method="post">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-outline-light">Salir</button>
+                    </form>
+                }
+                else
+                {
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Iniciar sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register">Registrarse</a></li>
+                    </ul>
+                }
+            </div>
         </div>
     </header>
 
@@ -38,6 +55,7 @@
         @RenderBody()
     </div>
 
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

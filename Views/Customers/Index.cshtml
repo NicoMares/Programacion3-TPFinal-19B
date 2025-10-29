@@ -1,4 +1,4 @@
-﻿@* Views/Customers/Index.cshtml *@
+﻿@model IEnumerable<Progra3_TPFinal_19B.Models.Customer>
 @{
     ViewData["Title"] = "Clientes";
 }
@@ -7,31 +7,36 @@
     <a asp-action="Create" class="btn btn-primary">Nuevo cliente</a>
 </div>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <form class="row g-2">
-            <div class="col-sm-4">
-                <input class="form-control" placeholder="Buscar por nombre o documento..." />
-            </div>
-            <div class="col-sm-2 d-grid">
-                <button class="btn btn-outline-secondary">Buscar</button>
-            </div>
-        </form>
-    </div>
-</div>
+@if (TempData["Msg"] != null)
+{
+    <div class="alert alert-success">@TempData["Msg"]</div>
+}
 
-<div class="row g-3">
-    @for (int i = 1; i <= 6; i++)
-    {
-        <div class="col-md-4">
-            <div class="card card-hover h-100">
-                <div class="card-body">
-                    <h5 class="card-title mb-1">Cliente @i</h5>
-                    <div class="text-muted small mb-2">CUIT 20-1234567@i-9</div>
-                    <div class="mb-2">cliente@demo.com</div>
-                    <a asp-controller="Incidents" asp-action="Create" class="btn btn-sm btn-outline-primary">Nueva incidencia</a>
-                </div>
-            </div>
-        </div>
-    }
+<div class="card">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead class="table-light">
+                <tr><th>Nombre</th><th>Documento</th><th>Email</th><th>Teléfono</th><th>Creado</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.Name</td>
+                        <td>@c.DocumentNumber</td>
+                        <td>@c.Email</td>
+                        <td>@c.Phone</td>
+                        <td>@c.CreatedAt.ToLocalTime()</td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        </td>
+                    </tr>
+               
+                }
+
+            </tbody>
+            
+        </table>
+    </div>
 </div>

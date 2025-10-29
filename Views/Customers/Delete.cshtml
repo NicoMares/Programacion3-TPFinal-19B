@@ -1,0 +1,25 @@
+﻿@model Progra3_TPFinal_19B.Models.Customer
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+}
+<div class="card">
+    <div class="card-header bg-danger text-white">Eliminar Cliente</div>
+    <div class="card-body">
+        <h5>¿Seguro que querés eliminar este cliente?</h5>
+        <dl class="row">
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+            <dt class="col-sm-3">Documento</dt>
+            <dd class="col-sm-9">@Model.DocumentNumber</dd>
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+            <dt class="col-sm-3">Teléfono</dt>
+            <dd class="col-sm-9">@Model.Phone</dd>
+        </dl>
+        <form asp-action="Delete" method="post" asp-route-id="@Model.Id">
+            @Html.AntiForgeryToken()
+            <button class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
