@@ -173,13 +173,11 @@ namespace Progra3_TPFinal_19B.Controllers
                 await _db.SaveChangesAsync();
 
                 var resetLink = Url.Action("ResetPassword", "Account", new { token }, Request.Scheme)!;
-                var body = $@"
-                    <p>Hola {user.FullName ?? user.Username},</p>
-                    <p>Para restablecer tu contraseña hacé clic en el enlace:</p>
-                    <p><a href=""{resetLink}"">Restablecer contraseña</a></p>
-                    <p>El enlace vence en 30 minutos. Si no fuiste vos, ignorá este mensaje.</p>
-                    <hr/><small>Progra3_TPFinal_19B</small>";
-                await _mail.SendAsync(user.Email ?? user.Username, "Restablecer contraseña", body);
+
+                var body = EmailTemplates.ResetPassword(user.FullName ?? user.Username, resetLink);
+
+                await _mail.SendAsync(user.Email ?? user.Username, "Restablecer tu contraseña", body);
+
             }
 
             return RedirectToAction(nameof(ForgotPasswordConfirmation));

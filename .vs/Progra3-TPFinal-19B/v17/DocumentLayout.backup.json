@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\models\\emails\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -178,7 +178,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -238,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
@@ -303,13 +303,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-10-20T20:52:10.945Z",
               "EditorCaption": ""
