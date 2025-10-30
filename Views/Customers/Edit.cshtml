@@ -1,14 +1,17 @@
 ﻿@model Progra3_TPFinal_19B.Models.ViewModels.CustomerCreateViewModel
 @{
     ViewData["Title"] = "Editar Cliente";
+    var rid = (Model != null && Model.Id != Guid.Empty) ? Model.Id : (ViewBag.CustomerId ?? Guid.Empty);
 }
 
 <div class="card">
     <div class="card-header bg-light">Editar Cliente</div>
     <div class="card-body">
-        <form asp-action="Edit" method="post" asp-route-id="@ViewBag.CustomerId" class="row g-3" novalidate>
+        <form asp-action="Edit" method="post" asp-route-id="@rid" class="row g-3" novalidate>
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <input type="hidden" asp-for="Id" />  <!-- asegura que el Id viaje también en el body -->
 
             <div class="col-md-6">
                 <label class="form-label" asp-for="Name"></label>

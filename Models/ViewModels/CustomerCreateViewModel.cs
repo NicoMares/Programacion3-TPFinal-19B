@@ -5,16 +5,18 @@ namespace Progra3_TPFinal_19B.Models.ViewModels
 {
     public class CustomerCreateViewModel
     {
-        [Required] public string Name { get; set; } = string.Empty;
+        public Guid Id { get; set; } // opcional en Create
+        [System.ComponentModel.DataAnnotations.Required]
+        public string DocumentNumber { get; set; } = null!;
 
-        [Required] public string DocumentNumber { get; set; } = string.Empty;
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Name { get; set; } = null!;
 
-        [Required, EmailAddress] public string Email { get; set; } = string.Empty;
+        [System.ComponentModel.DataAnnotations.Required, System.ComponentModel.DataAnnotations.EmailAddress]
+        public string Email { get; set; } = null!;
 
         public string? Phone { get; set; }
 
-        // Opcional: si lo completan, se usa; si no, va un default seguro
-        [DataType(DataType.Password)]
-        public string? Password { get; set; }
+
     }
 }

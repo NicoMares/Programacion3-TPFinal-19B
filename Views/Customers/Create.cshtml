@@ -2,38 +2,44 @@
 @{
     ViewData["Title"] = "Nuevo Cliente";
 }
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="mb-0">Nuevo Cliente</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+</div>
+
 <div class="card">
-    <div class="card-header bg-light">Nuevo Cliente</div>
     <div class="card-body">
         <form asp-action="Create" method="post" class="row g-3" novalidate>
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
 
             <div class="col-md-6">
-                <label class="form-label">Nombre</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Documento / CUIT</label>
-                <input asp-for="DocumentNumber" class="form-control" />
-                <span asp-validation-for="DocumentNumber" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input asp-for="Email" type="email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Teléfono</label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+                <label class="form-label" asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+                <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
-            
+            <div class="col-md-6">
+                <label class="form-label" asp-for="DocumentNumber"></label>
+                <input class="form-control" asp-for="DocumentNumber" />
+                <span class="text-danger" asp-validation-for="DocumentNumber"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Email"></label>
+                <input class="form-control" asp-for="Email" type="email" />
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Phone"></label>
+                <input class="form-control" asp-for="Phone" />
+                <span class="text-danger" asp-validation-for="Phone"></span>
+            </div>
 
             <div class="col-12 d-flex gap-2">
-                <button class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
                 <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
             </div>
         </form>

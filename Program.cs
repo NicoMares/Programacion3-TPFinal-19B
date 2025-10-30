@@ -1,23 +1,29 @@
+using Progra3_TPFinal_19B.Application.Contracts;
+using Progra3_TPFinal_19B.Infrastructure;
+using System.Data;
 ﻿// Program.cs
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Progra3_TPFinal_19B.Data;
 using Progra3_TPFinal_19B.Models;
 using Progra3_TPFinal_19B.Models.Email;
 using Progra3_TPFinal_19B.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// --- ADO.NET DI ---
+builder.Services.AddSingleton<IDbConnectionFactory, SqlConnectionFactory>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email"));
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+builder.Services.AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+
 
 // DbContext (SQL Server)
-builder.Services.AddDbContext<CallCenterDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CallCenterDb")));
-
 // Password hasher (para login/register)
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
@@ -62,6 +68,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 // Controladores con rutas por atributos (HealthController, etc.)
 app.MapControllers();

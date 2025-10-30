@@ -1,175 +1,185 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Progra3_TPFinal_19B.Data;
+﻿// Controllers/CustomersController.cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Progra3_TPFinal_19B.Application.Contracts;
 using Progra3_TPFinal_19B.Models;
 using Progra3_TPFinal_19B.Models.ViewModels;
-using System;
+using System.Security.Claims;
 
-namespace Progra3_TPFinal_19B.Controllers
+[Authorize]
+public class CustomersController : Controller
 {
-    public class CustomersController : Controller
+    private readonly ICustomerRepository _customers;
+    public CustomersController(ICustomerRepository customers) => _customers = customers;
+
+    public async Task<IActionResult> Index(int page = 1, int size = 20)
     {
-        private readonly CallCenterDbContext _db;
-        private static readonly Guid AdminSeedId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        var list = await _customers.ListAsync(page, size);
+        return View(list);
+    }
 
-        public CustomersController(CallCenterDbContext db) => _db = db;
+    public async Task<IActionResult> Details(Guid id)
+    {
+        var c = await _customers.GetByIdAsync(id);
+        if (c == null) return NotFound();
+        return View(c);
+    }
 
-        [HttpGet]
-        public IActionResult Index()
+    //public IActionResult Create() => View(new Customer());
+
+    // GET: Customers/Create
+    [HttpGet]
+    public IActionResult Create()
+    {
+        var vm = new CustomerCreateViewModel(); // VM vacía para la vista
+        return View(vm);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CustomerCreateViewModel vm)
+    {
+        if (!ModelState.IsValid) return View(vm);
+
+        // Validaciones amistosas antes de ir a la DB
+        if (await _customers.ExistsByDocumentAsync(vm.DocumentNumber))
         {
-            var list = _db.Customers
-                          .Where(c => !c.IsDeleted)
-                          .OrderByDescending(c => c.CreatedAt)
-                          .ToList();
-            return View(list);
+            ModelState.AddModelError(nameof(vm.DocumentNumber), "Ya existe un cliente con ese documento.");
+            return View(vm);
         }
-
-        [HttpGet]
-        public IActionResult Create() => View(new CustomerCreateViewModel());
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CustomerCreateViewModel vm)
+        if (await _customers.ExistsByEmailAsync(vm.Email))
         {
-            if (!ModelState.IsValid) return View(vm);
-
-            if (_db.Customers.Any(c => c.DocumentNumber == vm.DocumentNumber))
-                ModelState.AddModelError(nameof(vm.DocumentNumber), "Ya existe un cliente con ese documento.");
-            if (_db.Users.Any(u => u.Username == vm.Email || u.Email == vm.Email))
-                ModelState.AddModelError(nameof(vm.Email), "Ya existe un usuario con ese email.");
-
-            if (!ModelState.IsValid) return View(vm);
-
-            var creatorId = AdminSeedId;
-
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                Username = vm.Email,
-                FullName = vm.Name,
-                Role = "Cliente",
-                PasswordHash = null!,
-                Email = vm.Email,
-                CreatedAt = DateTime.UtcNow,
-                CreatedByUserId = creatorId,
-                IsDeleted = false,
-                IsBlocked = false
-            };
-            _db.Users.Add(user);
-
-            var customer = new Customer
-            {
-                Id = Guid.NewGuid(),
-                DocumentNumber = vm.DocumentNumber,
-                Name = vm.Name,
-                Email = vm.Email,
-                Phone = vm.Phone,
-                CreatedAt = DateTime.UtcNow,
-                CreatedByUserId = creatorId,
-                IsDeleted = false
-            };
-            _db.Customers.Add(customer);
-
-            await _db.SaveChangesAsync();
-
-            TempData["Msg"] = "Cliente creado correctamente.";
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        public IActionResult Edit(Guid id)
-        {
-            var customer = _db.Customers.FirstOrDefault(c => c.Id == id && !c.IsDeleted);
-            if (customer == null) return NotFound();
-
-            var vm = new CustomerCreateViewModel
-            {
-                Name = customer.Name,
-                DocumentNumber = customer.DocumentNumber,
-                Email = customer.Email,
-                Phone = customer.Phone
-            };
-            ViewBag.CustomerId = customer.Id;
+            ModelState.AddModelError(nameof(vm.Email), "Ya existe un cliente con ese email.");
             return View(vm);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, CustomerCreateViewModel vm)
+        var uid = User.FindFirstValue("UserId");
+        if (string.IsNullOrWhiteSpace(uid)) return Unauthorized();
+
+        var c = new Customer
         {
-            if (!ModelState.IsValid) return View(vm);
+            Id = Guid.NewGuid(),
+            DocumentNumber = vm.DocumentNumber,
+            Name = vm.Name,
+            Email = vm.Email,
+            Phone = vm.Phone,
+            CreatedAt = DateTime.UtcNow,
+            CreatedByUserId = Guid.Parse(uid),
+            IsDeleted = false
+        };
 
-            var customer = _db.Customers.FirstOrDefault(c => c.Id == id && !c.IsDeleted);
-            if (customer == null) return NotFound();
-
-            customer.Name = vm.Name;
-            customer.DocumentNumber = vm.DocumentNumber;
-            customer.Email = vm.Email;
-            customer.Phone = vm.Phone;
-            customer.UpdatedAt = DateTime.UtcNow;
-            customer.UpdatedByUserId = AdminSeedId;
-
-            var user = _db.Users.FirstOrDefault(u => u.Email == customer.Email);
-            if (user != null)
-            {
-                user.FullName = vm.Name;
-                user.Email = vm.Email;
-                user.Username = vm.Email;
-                user.UpdatedAt = DateTime.UtcNow;
-                user.UpdatedByUserId = AdminSeedId;
-            }
-
-            await _db.SaveChangesAsync();
-
-            TempData["Msg"] = "Cliente actualizado correctamente.";
-            return RedirectToAction(nameof(Index));
+        try
+        {
+            await _customers.CreateAsync(c);
+        }
+        catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
+        {
+            // Choque de índice único (documento o email) — sin tirar 500
+            ModelState.AddModelError("", "Documento o Email ya existen.");
+            // Si querés ser más específico:
+            // if (ex.Message.Contains("UQ_Customers_Document")) ModelState.AddModelError(nameof(vm.DocumentNumber), "Ya existe un cliente con ese documento.");
+            // else if (ex.Message.Contains("UQ_Customers_Email")) ModelState.AddModelError(nameof(vm.Email), "Ya existe un cliente con ese email.");
+            return View(vm);
         }
 
-        [HttpGet]
-        public IActionResult Delete(Guid id)
-        {
-            var customer = _db.Customers.FirstOrDefault(c => c.Id == id && !c.IsDeleted);
-            if (customer == null) return NotFound();
-            return View(customer);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var customer = await _db.Customers
-                .Where(c => c.Id == id && !c.IsDeleted)
-                .SingleOrDefaultAsync();
-
-            if (customer == null) return NotFound();
-
-            customer.IsDeleted = true;
-            customer.UpdatedAt = DateTime.UtcNow;
-            customer.UpdatedByUserId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-
-            var userId = await _db.Users
-                .Where(u => u.Email == customer.Email && !u.IsDeleted)
-                .Select(u => u.Id)
-                .SingleOrDefaultAsync();   
-
-            if (userId != Guid.Empty)
-            {
-                var userStub = new User
-                {
-                    Id = userId,
-                    IsDeleted = true,
-                    UpdatedAt = DateTime.UtcNow,
-                    UpdatedByUserId = Guid.Parse("11111111-1111-1111-1111-111111111111")
-                };
-                _db.Attach(userStub);
-                _db.Entry(userStub).Property(x => x.IsDeleted).IsModified = true;
-                _db.Entry(userStub).Property(x => x.UpdatedAt).IsModified = true;
-                _db.Entry(userStub).Property(x => x.UpdatedByUserId).IsModified = true;
-            }
-
-            await _db.SaveChangesAsync();
-            TempData["Msg"] = "Cliente eliminado correctamente.";
-            return RedirectToAction(nameof(Index));
-        }
+        TempData["Msg"] = "Cliente creado.";
+        return RedirectToAction(nameof(Index));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var c = await _customers.GetByIdAsync(id);
+        if (c == null) return NotFound();
+
+        var vm = new CustomerCreateViewModel
+        {
+            Id = c.Id,
+            DocumentNumber = c.DocumentNumber,
+            Name = c.Name,
+            Email = c.Email,
+            Phone = c.Phone
+        };
+        ViewBag.CustomerId = c.Id; // compat con tu vista actual
+        return View(vm);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, CustomerCreateViewModel vm)
+    {
+        if (!ModelState.IsValid) return View(vm);
+
+        var existing = await _customers.GetByIdAsync(id);
+        if (existing == null) return NotFound();
+
+        // Solo checkeá duplicado si cambió el valor
+        if (!string.Equals(vm.DocumentNumber, existing.DocumentNumber, StringComparison.OrdinalIgnoreCase)
+            && await _customers.ExistsByDocumentAsync(vm.DocumentNumber))
+        {
+            ModelState.AddModelError(nameof(vm.DocumentNumber), "Ya existe un cliente con ese documento.");
+            return View(vm);
+        }
+        if (!string.Equals(vm.Email, existing.Email, StringComparison.OrdinalIgnoreCase)
+            && await _customers.ExistsByEmailAsync(vm.Email, id))
+        {
+            ModelState.AddModelError(nameof(vm.Email), "Ya existe un cliente con ese email.");
+            return View(vm);
+        }
+
+        var uid = User.FindFirstValue("UserId");
+        if (string.IsNullOrWhiteSpace(uid)) return Unauthorized();
+
+        existing.DocumentNumber = vm.DocumentNumber;
+        existing.Name = vm.Name;
+        existing.Email = vm.Email;
+        existing.Phone = vm.Phone;
+        existing.UpdatedByUserId = Guid.Parse(uid);
+
+        try
+        {
+            await _customers.UpdateAsync(existing);
+        }
+        catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
+        {
+            ModelState.AddModelError("", "Documento o Email ya existen.");
+            return View(vm);
+        }
+
+        TempData["Msg"] = "Cliente actualizado.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    // GET: Customers/Delete/{id}
+    [HttpGet]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var c = await _customers.GetByIdAsync(id);
+        if (c == null) return NotFound();
+        return View(c); // usa la vista Delete.cshtml fuertemente tipada a Customer
+    }
+
+    // POST: Customers/Delete/{id}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)   // nombre distinto para evitar confusión
+    {
+        var uid = User.FindFirstValue("UserId");
+        if (string.IsNullOrEmpty(uid)) return Unauthorized();
+
+        await _customers.DeleteAsync(id, Guid.Parse(uid));
+        TempData["Msg"] = "Cliente eliminado.";
+        return RedirectToAction(nameof(Index));
+    }
+
+    private Guid GetUserIdOrThrow()
+    {
+        var userIdStr = User.FindFirstValue("UserId");
+        if (string.IsNullOrEmpty(userIdStr))
+        {
+            throw new InvalidOperationException("No se pudo obtener el UserId del usuario autenticado.");
+        }
+        return Guid.Parse(userIdStr);
+    }
+}
