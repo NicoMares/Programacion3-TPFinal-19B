@@ -1,77 +1,85 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\",
+  "WorkspaceRootPath": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\infrastructure\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\infrastructure\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:infrastructure\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\application\\contracts\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:application\\contracts\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\views\\customers\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\infrastructure\\sqlconnectionfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:infrastructure\\sqlconnectionfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\models\\viewmodels\\customercreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:models\\viewmodels\\customercreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\views\\customers\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\views\\customers\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\infrastructure\\passwordresettokenrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\infrastructure\\passwordresettokenrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:infrastructure\\passwordresettokenrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\controllers\\healthcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\infrastructure\\sqlconnectionfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:infrastructure\\sqlconnectionfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\application\\contracts\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:application\\contracts\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\customers\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\models\\viewmodels\\customercreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:models\\viewmodels\\customercreateviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\customers\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\customers\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\customers\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\controllers\\healthcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:controllers\\healthcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\models\\customers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\models\\customers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:models\\customers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\application\\contracts\\ipasswordresettokenrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\application\\contracts\\ipasswordresettokenrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:application\\contracts\\ipasswordresettokenrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\infrastructure\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\infrastructure\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:infrastructure\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\application\\contracts\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\application\\contracts\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:application\\contracts\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|c:\\users\\aledesma\\source\\repos\\progra3-tpfinal-19b\\models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -82,31 +90,49 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Customers\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Edit.cshtml",
-              "RelativeToolTip": "Views\\Customers\\Edit.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-29T23:38:37.488Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Login.cshtml*",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml*",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAgwE4AAABrAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-31T20:13:10.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Register.cshtml",
+              "RelativeToolTip": "Views\\Account\\Register.cshtml",
+              "ViewState": "AgIAABEAAAAAAAAAAAApwCcAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-31T19:35:34.421Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Program.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Program.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Program.cs",
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAACsAAAAAAAAAAADwv0YAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -114,11 +140,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "Delete.cshtml",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Delete.cshtml",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Delete.cshtml",
               "RelativeDocumentMoniker": "Views\\Customers\\Delete.cshtml",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Delete.cshtml",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Delete.cshtml",
               "RelativeToolTip": "Views\\Customers\\Delete.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -126,11 +152,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Create.cshtml",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\Customers\\Create.cshtml",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Create.cshtml",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Create.cshtml",
               "RelativeToolTip": "Views\\Customers\\Create.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -138,11 +164,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Index.cshtml",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Customers\\Index.cshtml",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Views\\Customers\\Index.cshtml",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Index.cshtml",
               "RelativeToolTip": "Views\\Customers\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -152,46 +178,48 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "SqlConnectionFactory.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\SqlConnectionFactory.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\SqlConnectionFactory.cs",
               "RelativeDocumentMoniker": "Infrastructure\\SqlConnectionFactory.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\SqlConnectionFactory.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\SqlConnectionFactory.cs",
               "RelativeToolTip": "Infrastructure\\SqlConnectionFactory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T23:29:10.368Z"
+              "WhenOpened": "2025-10-29T23:29:10.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ICustomerRepository.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\ICustomerRepository.cs",
+              "RelativeDocumentMoniker": "Application\\Contracts\\ICustomerRepository.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\ICustomerRepository.cs",
+              "RelativeToolTip": "Application\\Contracts\\ICustomerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T23:17:19.298Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ICustomerRepository.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Application\\Contracts\\ICustomerRepository.cs",
-              "RelativeDocumentMoniker": "Application\\Contracts\\ICustomerRepository.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Application\\Contracts\\ICustomerRepository.cs",
-              "RelativeToolTip": "Application\\Contracts\\ICustomerRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T23:17:19.298Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "CustomerRepository.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\CustomerRepository.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\CustomerRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\CustomerRepository.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\CustomerRepository.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\CustomerRepository.cs",
               "RelativeToolTip": "Infrastructure\\CustomerRepository.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAgwA8AAABKAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-29T23:17:41.899Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "CustomersController.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Controllers\\CustomersController.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\CustomersController.cs",
               "RelativeDocumentMoniker": "Controllers\\CustomersController.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Controllers\\CustomersController.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\CustomersController.cs",
               "RelativeToolTip": "Controllers\\CustomersController.cs",
               "ViewState": "AgIAAHMAAAAAAAAAAAAowIsAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -199,11 +227,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "CustomerCreateViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Models\\ViewModels\\CustomerCreateViewModel.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\ViewModels\\CustomerCreateViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ViewModels\\CustomerCreateViewModel.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Models\\ViewModels\\CustomerCreateViewModel.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\ViewModels\\CustomerCreateViewModel.cs",
               "RelativeToolTip": "Models\\ViewModels\\CustomerCreateViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -211,23 +239,36 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
               "Title": "PasswordResetTokenRepository.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\PasswordResetTokenRepository.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\PasswordResetTokenRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\PasswordResetTokenRepository.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\PasswordResetTokenRepository.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\PasswordResetTokenRepository.cs",
               "RelativeToolTip": "Infrastructure\\PasswordResetTokenRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAACYAAAAAAAAAAAAgwA8AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T23:03:05.639Z"
+              "WhenOpened": "2025-10-29T23:03:05.639Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 7,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Customers\\Edit.cshtml",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Customers\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-29T23:38:37.488Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "UserRepository.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\UserRepository.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\UserRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\UserRepository.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Infrastructure\\UserRepository.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\UserRepository.cs",
               "RelativeToolTip": "Infrastructure\\UserRepository.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAmwAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -235,11 +276,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "Customers.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Models\\Customers.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\Customers.cs",
               "RelativeDocumentMoniker": "Models\\Customers.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Models\\Customers.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\Customers.cs",
               "RelativeToolTip": "Models\\Customers.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAwBYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -247,11 +288,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "HealthController.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Controllers\\HealthController.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\HealthController.cs",
               "RelativeDocumentMoniker": "Controllers\\HealthController.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Controllers\\HealthController.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\HealthController.cs",
               "RelativeToolTip": "Controllers\\HealthController.cs",
               "ViewState": "AgIAAD0AAAAAAAAAAAAUwFIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -259,11 +300,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "IUserRepository.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Application\\Contracts\\IUserRepository.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\IUserRepository.cs",
               "RelativeDocumentMoniker": "Application\\Contracts\\IUserRepository.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Application\\Contracts\\IUserRepository.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\IUserRepository.cs",
               "RelativeToolTip": "Application\\Contracts\\IUserRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -271,23 +312,24 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "AccountController.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Controllers\\AccountController.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Controllers\\AccountController.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\AccountController.cs",
               "RelativeToolTip": "Controllers\\AccountController.cs",
               "ViewState": "AgIAAMYAAAAAAAAAAAAmwKkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T22:57:02.707Z"
+              "WhenOpened": "2025-10-29T22:57:02.707Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "IPasswordResetTokenRepository.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Application\\Contracts\\IPasswordResetTokenRepository.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\IPasswordResetTokenRepository.cs",
               "RelativeDocumentMoniker": "Application\\Contracts\\IPasswordResetTokenRepository.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Application\\Contracts\\IPasswordResetTokenRepository.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\IPasswordResetTokenRepository.cs",
               "RelativeToolTip": "Application\\Contracts\\IPasswordResetTokenRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -295,11 +337,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "Users.cs",
-              "DocumentMoniker": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Models\\Users.cs",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\Users.cs",
               "RelativeDocumentMoniker": "Models\\Users.cs",
-              "ToolTip": "C:\\Users\\aledesma\\source\\repos\\Progra3-TPFinal-19B\\Models\\Users.cs",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\Users.cs",
               "RelativeToolTip": "Models\\Users.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
