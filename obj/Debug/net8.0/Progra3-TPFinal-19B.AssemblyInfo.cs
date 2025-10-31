@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Progra3-TPFinal-19B")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8fa65f3c9e59eac630ffef2eeaece69c95c8168")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+958c1b08a06149062995884223715bffc129ed1c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Progra3-TPFinal-19B")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Progra3-TPFinal-19B")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

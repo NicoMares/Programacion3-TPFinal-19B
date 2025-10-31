@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|f:\\github\\facultad\\progra 3- segundo intento\\progra3-tpfinal-19b\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{49FC40D3-E04F-4A03-BD03-18EB004CCA32}|Progra3-TPFinal-19B.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -99,19 +103,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Login.cshtml*",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml*",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAgwE4AAABrAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-31T20:13:10.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Register.cshtml",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Register.cshtml",
               "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
               "ToolTip": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Account\\Register.cshtml",
               "RelativeToolTip": "Views\\Account\\Register.cshtml",
-              "ViewState": "AgIAABQAAAAAAAAAAAAgwCIAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAApwCcAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-31T19:35:34.421Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -123,7 +140,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Delete.cshtml",
               "RelativeDocumentMoniker": "Views\\Customers\\Delete.cshtml",
@@ -135,7 +152,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Create.cshtml",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\Customers\\Create.cshtml",
@@ -147,7 +164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Index.cshtml",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Customers\\Index.cshtml",
@@ -159,7 +176,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "SqlConnectionFactory.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\SqlConnectionFactory.cs",
               "RelativeDocumentMoniker": "Infrastructure\\SqlConnectionFactory.cs",
@@ -172,7 +189,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ICustomerRepository.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\ICustomerRepository.cs",
               "RelativeDocumentMoniker": "Application\\Contracts\\ICustomerRepository.cs",
@@ -185,7 +202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CustomerRepository.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\CustomerRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\CustomerRepository.cs",
@@ -198,7 +215,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "CustomersController.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\CustomersController.cs",
               "RelativeDocumentMoniker": "Controllers\\CustomersController.cs",
@@ -210,7 +227,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "CustomerCreateViewModel.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\ViewModels\\CustomerCreateViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ViewModels\\CustomerCreateViewModel.cs",
@@ -222,7 +239,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PasswordResetTokenRepository.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\PasswordResetTokenRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\PasswordResetTokenRepository.cs",
@@ -235,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Views\\Customers\\Edit.cshtml",
               "RelativeDocumentMoniker": "Views\\Customers\\Edit.cshtml",
@@ -247,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "UserRepository.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Infrastructure\\UserRepository.cs",
               "RelativeDocumentMoniker": "Infrastructure\\UserRepository.cs",
@@ -259,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Customers.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\Customers.cs",
               "RelativeDocumentMoniker": "Models\\Customers.cs",
@@ -271,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "HealthController.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\HealthController.cs",
               "RelativeDocumentMoniker": "Controllers\\HealthController.cs",
@@ -283,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "IUserRepository.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\IUserRepository.cs",
               "RelativeDocumentMoniker": "Application\\Contracts\\IUserRepository.cs",
@@ -295,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "AccountController.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
@@ -308,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "IPasswordResetTokenRepository.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Application\\Contracts\\IPasswordResetTokenRepository.cs",
               "RelativeDocumentMoniker": "Application\\Contracts\\IPasswordResetTokenRepository.cs",
@@ -320,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "Users.cs",
               "DocumentMoniker": "F:\\Github\\Facultad\\Progra 3- Segundo Intento\\Progra3-TPFinal-19B\\Models\\Users.cs",
               "RelativeDocumentMoniker": "Models\\Users.cs",
