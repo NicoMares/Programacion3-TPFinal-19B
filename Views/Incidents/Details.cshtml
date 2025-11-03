@@ -1,48 +1,97 @@
 ﻿@* Views/Incidents/Details.cshtml *@
+@model Progra3_TPFinal_19B.Models.ViewModels.IncidentDetailsViewModel
 @{
     ViewData["Title"] = "Detalle Incidencia";
+    var history = ViewBag.History as IEnumerable<Progra3_TPFinal_19B.Models.ViewModels.IncidentHistoryItemViewModel> ?? Enumerable.Empty<Progra3_TPFinal_19B.Models.ViewModels.IncidentHistoryItemViewModel>();
+    bool locked = Model.State is "Resuelto" or "Cerrado";
+
+
+    string prioBadge = Model.PriorityName switch
+    {
+        "Alta" => "bg-danger text-white",
+        "Media" => "bg-warning text-dark",
+        "Baja" => "bg-success text-white",
+        _ => "bg-secondary text-white"
+    };
+    string stateBadge = Model.State switch
+    {
+        "Abierto" => "bg-secondary text-white",
+        "Asignado" => "bg-primary text-white",
+        "EnAnalisis" => "bg-info text-dark",
+        "Resuelto" => "bg-success text-white",
+        "Cerrado" => "bg-dark text-white",
+        "Reabierto" => "bg-warning text-dark",
+        _ => "bg-light text-dark"
+    };
 }
 <div class="row g-3">
     <div class="col-lg-8">
         <div class="card incident-card">
             <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <h4 class="mb-0">INC-2025-00123</h4>
-                    <div>
-                        <span class="badge text-bg-secondary badge-state">Abierto</span>
-                        <span class="badge text-bg-danger">Alta</span>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">@Model.Number</h4>
+                    <div class="d-flex gap-2">
+                        <span class="badge @stateBadge">@Model.State</span>
+                        <span class="badge @prioBadge">@Model.PriorityName</span>
                     </div>
                 </div>
-                <p class="text-muted mb-1">Cliente: <a asp-controller="Customers" asp-action="Details" asp-route-id="1">Acme S.A.</a></p>
-                <p class="text-muted">Tipo: Soporte • Asignado a: <a href="#">Telefonista 1</a></p>
+
+                <p class="text-muted mb-1">
+                    Cliente:
+                    <a asp-controller="Customers" asp-action="Details" asp-route-id="@Model.CustomerId">
+                        @(!string.IsNullOrWhiteSpace(Model.CustomerName) ? Model.CustomerName : Model.CustomerId.ToString())
+                    </a>
+                </p>
+                <p class="text-muted">
+                    Tipo: @(!string.IsNullOrWhiteSpace(Model.TypeName) ? Model.TypeName : "—")
+                    • Asignado a:
+                    <a href="#">
+                        @(!string.IsNullOrWhiteSpace(Model.AssignedToUsername) ? Model.AssignedToUsername : Model.AssignedToUserId.ToString())
+                    </a>
+                </p>
+
                 <hr />
                 <h6>Problemática</h6>
-                <p>El sistema se cierra al generar el reporte mensual.</p>
-                <div class="d-flex gap-2 mt-3">
-                    <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="123">Modificar</a>
-                    <a class="btn btn-outline-success btn-sm" asp-action="Resolve" asp-route-id="123">Resolver</a>
-                    <a class="btn btn-outline-dark btn-sm" asp-action="Close" asp-route-id="123">Cerrar Incidencia</a>
-                    <a class="btn btn-outline-warning btn-sm" asp-action="Reassign" asp-route-id="123">Reasignar</a>
-                </div>
+                <p>@Model.Problem</p>
+
+               
             </div>
         </div>
 
-        <div class="card mt-3">
+        <div class="card mt-3" id="comments">
             <div class="card-header bg-light">Comentarios</div>
             <div class="card-body">
-                <div class="mb-3">
-                    <div class="small text-muted">hoy 10:33 • por Telefonista 1</div>
-                    <div>Se solicitó más información al cliente.</div>
-                </div>
-                <div class="mb-3">
-                    <div class="small text-muted">ayer 17:12 • por Supervisor</div>
-                    <div>Reasignado a Telefonista 1.</div>
-                </div>
-                <form class="mt-3">
+                @if (TempData["Err"] is string err && !string.IsNullOrWhiteSpace(err))
+                {
+                    <div class="alert alert-danger py-1 mb-3">@err</div>
+                }
+                @if (TempData["Ok"] is string ok && !string.IsNullOrWhiteSpace(ok))
+                {
+                    <div class="alert alert-success py-1 mb-3">@ok</div>
+                }
+
+                @if (Model.Comments?.Any() == true)
+                {
+                    foreach (var c in Model.Comments)
+                    {
+                        <div class="mb-3">
+                            <div class="small text-muted">@c.CreatedAt.ToString("dd/MM/yyyy HH:mm") • por @c.AuthorUsername</div>
+                            <div>@c.Text</div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted small mb-3">No hay comentarios registrados.</p>
+                }
+
+                <form asp-action="AddComment" method="post" class="mt-3">
+                    <input type="hidden" name="incidentId" value="@Model.Id" />
                     <div class="input-group">
-                        <input class="form-control" placeholder="Escribir un comentario..." />
-                        <button class="btn btn-primary">Agregar</button>
+                        <input name="text" class="form-control" maxlength="2000" placeholder="Escribir un comentario..." />
+                        <button class="btn btn-primary" type="submit">Agregar</button>
                     </div>
+                    @Html.AntiForgeryToken()
                 </form>
             </div>
         </div>
@@ -50,10 +99,25 @@
         <div class="card mt-3">
             <div class="card-header bg-light">Historial</div>
             <div class="card-body small">
-                <ul class="list-unstyled mb-0">
-                    <li>Abierto • 18/10/2025 • por Telefonista 1</li>
-                    <li>Asignado • 19/10/2025 • por Supervisor</li>
-                </ul>
+                @if (history.Any())
+                {
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var h in history)
+                        {
+                            <li>
+                                <strong>@h.Kind</strong> • @h.When.ToString("dd/MM/yyyy HH:mm") • por @h.Who
+                                @if (!string.IsNullOrWhiteSpace(h.Detail))
+                                {
+                                    <span> — @h.Detail</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span class="text-muted">Sin eventos aún.</span>
+                }
             </div>
         </div>
     </div>
@@ -62,10 +126,26 @@
         <div class="card">
             <div class="card-header bg-light">Acciones rápidas</div>
             <div class="card-body">
-                <a class="btn btn-outline-secondary w-100 mb-2" asp-action="Edit" asp-route-id="123">Editar</a>
-                <a class="btn btn-outline-success w-100 mb-2" asp-action="Resolve" asp-route-id="123">Resolver</a>
-                <a class="btn btn-outline-dark w-100 mb-2" asp-action="Close" asp-route-id="123">Cerrar</a>
-                <a class="btn btn-outline-warning w-100" asp-action="Reassign" asp-route-id="123">Reasignar</a>
+                <a class="btn btn-outline-success btn-sm @(locked ? "disabled" : "")"
+                   asp-action="Resolve" asp-route-id="@Model.Id"
+                   aria-disabled="@(locked ? "true" : "false")"
+                   title="@(locked ? "No disponible: incidencia " + Model.State : "Resolver")">
+                    Resolver
+                </a>
+
+                <a class="btn btn-outline-dark btn-sm @(locked ? "disabled" : "")"
+                   asp-action="Close" asp-route-id="@Model.Id"
+                   aria-disabled="@(locked ? "true" : "false")"
+                   title="@(locked ? "No disponible: incidencia " + Model.State : "Cerrar")">
+                    Cerrar Incidencia
+                </a>
+
+                <a class="btn btn-outline-warning btn-sm @(locked ? "disabled" : "")"
+                   asp-action="Reassign" asp-route-id="@Model.Id"
+                   aria-disabled="@(locked ? "true" : "false")"
+                   title="@(locked ? "No disponible: incidencia " + Model.State : "Reasignar")">
+                    Reasignar
+                </a>
             </div>
         </div>
     </div>

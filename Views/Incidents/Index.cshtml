@@ -1,53 +1,5 @@
-﻿@* Views/Incidents/Index.cshtml *@
-@{
-    ViewData["Title"] = "Incidencias";
-}
-<div class="d-flex align-items-center justify-content-between mb-3">
-    <h2 class="mb-0">Incidencias</h2>
-    <div>
-        <a asp-action="Create" class="btn btn-primary">Nueva incidencia</a>
-    </div>
-</div>
-
-<div class="card mb-3 table-filter">
-    <div class="card-body">
-        <form class="row g-2">
-            <div class="col-sm-3">
-                <input class="form-control" placeholder="Buscar #, cliente, texto..." />
-            </div>
-            <div class="col-sm-2">
-                <select class="form-select">
-                    <option selected>Estado</option>
-                    <option>Abierto</option>
-                    <option>Asignado</option>
-                    <option>En Análisis</option>
-                    <option>Resuelto</option>
-                    <option>Cerrado</option>
-                    <option>Reabierto</option>
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <select class="form-select">
-                    <option selected>Prioridad</option>
-                    <option>Alta</option>
-                    <option>Media</option>
-                    <option>Baja</option>
-                </select>
-            </div>
-            <div class="col-sm-3">
-                <select class="form-select">
-                    <option selected>Asignado a</option>
-                    <option>Yo</option>
-                    <option>Usuario 1</option>
-                    <option>Usuario 2</option>
-                </select>
-            </div>
-            <div class="col-sm-2 d-grid">
-                <button class="btn btn-outline-secondary">Filtrar</button>
-            </div>
-        </form>
-    </div>
-</div>
+﻿@* Views/Incidents/Index.cshtml (render robusto) *@
+@model IEnumerable<Progra3_TPFinal_19B.Models.ViewModels.IncidentListItemViewModel>
 
 <div class="card">
     <div class="table-responsive">
@@ -65,32 +17,51 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 1; i <= 8; i++)
+                @if (Model?.Any() == true)
                 {
-                    <tr>
-                        <td><a asp-action="Details" asp-route-id="@i">INC-2025-@i.ToString("000")</a></td>
-                        <td>Cliente @i</td>
-                        <td>Soporte</td>
-                        <td><span class="badge text-bg-danger">Alta</span></td>
-                        <td><span class="badge text-bg-secondary">Abierto</span></td>
-                        <td>Telefonista @((i % 3) + 1)</td>
-                        <td>@DateTime.Now.AddDays(-i).ToShortDateString()</td>
-                        <td class="text-end">
-                            <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@i">Ver</a>
-                        </td>
-                    </tr>
+                    foreach (var item in Model)
+                    {
+                        var prio = string.IsNullOrWhiteSpace(item.PriorityName) ? "—" : item.PriorityName;
+                        var state = string.IsNullOrWhiteSpace(item.State) ? "—" : item.State;
+
+                        var prioBadge = item.PriorityName switch
+                        {
+                            "Alta" => "bg-danger text-white",
+                            "Media" => "bg-warning text-dark",
+                            "Baja" => "bg-success text-white",
+                            _ => "bg-secondary text-white"
+                        };
+                        var stateBadge = item.State switch
+                        {
+                            "Abierto" => "bg-secondary text-white",
+                            "Asignado" => "bg-primary text-white",
+                            "EnAnalisis" => "bg-info text-dark",
+                            "Resuelto" => "bg-success text-white",
+                            "Cerrado" => "bg-dark text-white",
+                            "Reabierto" => "bg-warning text-dark",
+                            _ => "bg-light text-dark"
+                        };
+
+
+                        <tr>
+                            <td><a asp-action="Details" asp-route-id="@item.Id">@item.Number</a></td>
+                            <td>@(string.IsNullOrWhiteSpace(item.CustomerName) ? "—" : item.CustomerName)</td>
+                            <td>@(string.IsNullOrWhiteSpace(item.TypeName) ? "—" : item.TypeName)</td>
+                            <td><span class="badge @prioBadge">@prio</span></td>
+                            <td><span class="badge @stateBadge">@state</span></td>
+                            <td>@(string.IsNullOrWhiteSpace(item.AssignedToUsername) ? "—" : item.AssignedToUsername)</td>
+                            <td>@item.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="text-end">
+                                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Ver</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="8" class="text-center text-muted py-4">No hay incidencias.</td></tr>
                 }
             </tbody>
         </table>
-    </div>
-    <div class="card-footer d-flex justify-content-between align-items-center">
-        <span class="text-muted">Mostrando 1–8 de 8</span>
-        <nav>
-            <ul class="pagination pagination-sm mb-0">
-                <li class="page-item disabled"><span class="page-link">«</span></li>
-                <li class="page-item active"><span class="page-link">1</span></li>
-                <li class="page-item disabled"><span class="page-link">»</span></li>
-            </ul>
-        </nav>
     </div>
 </div>
