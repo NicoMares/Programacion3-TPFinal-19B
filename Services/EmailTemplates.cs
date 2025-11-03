@@ -70,5 +70,74 @@
                 .Replace("{{ActionUrl}}", actionUrl ?? "#")
                 .Replace("{{Year}}", year);
         }
+        public static string IncidentCreated(string customerName, string incidentNumber, string typeName, string priorityName, string assignedUser, string problem)
+        {
+            var year = DateTime.UtcNow.Year.ToString();
+
+            string html = @"
+<!doctype html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <title>Nueva incidencia</title>
+</head>
+<body style='margin:0; padding:0; background:#f5f7fb; font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;'>
+  <center style='width:100%; background:#f5f7fb;'>
+    <table width='100%' cellspacing='0' cellpadding='0' border='0' style='background:#f5f7fb;'>
+      <tr><td align='center' style='padding:24px 12px;'>
+        <table width='600' cellspacing='0' cellpadding='0' border='0' style='width:600px; background:#ffffff; border-radius:12px; box-shadow:0 6px 24px rgba(20,30,50,.06); overflow:hidden;'>
+          <tr>
+            <td align='center' style='background:#0d6efd; padding:18px 24px;'>
+              <div style='font-weight:700; font-size:18px; color:#fff;'>Progra3_TPFinal_19B • Call Center</div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style='padding:32px; color:#192132;'>
+              <div style='font-size:24px; font-weight:700; margin:0 0 8px;'>Incidencia registrada</div>
+              <p style='margin:0 0 16px;'>Hola <strong>{{CustomerName}}</strong>, tu incidencia fue registrada exitosamente.</p>
+
+              <table cellspacing='0' cellpadding='0' border='0' style='margin:0 0 16px; width:100%;'>
+                <tr><td style='padding:4px 8px;'><b>Número</b></td><td style='padding:4px 8px;'>{{IncidentNumber}}</td></tr>
+                <tr><td style='padding:4px 8px;'><b>Tipo</b></td><td style='padding:4px 8px;'>{{TypeName}}</td></tr>
+                <tr><td style='padding:4px 8px;'><b>Prioridad</b></td><td style='padding:4px 8px;'>{{PriorityName}}</td></tr>
+                <tr><td style='padding:4px 8px;'><b>Asignado a</b></td><td style='padding:4px 8px;'>{{AssignedUser}}</td></tr>
+              </table>
+
+              <div style='padding:12px 16px; background:#f8fafc; border-radius:10px; border:1px solid #eef2f7;'>
+                <div style='font-weight:600; margin-bottom:4px;'>Descripción del problema:</div>
+                <div style='white-space:pre-wrap;'>{{Problem}}</div>
+              </div>
+
+              <p style='margin:24px 0 0; font-size:12px; color:#6c757d;'>
+                En breve uno de nuestros operadores se comunicará con vos.<br>
+                Este es un correo automático, por favor no respondas.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td align='center' style='padding:20px; background:#ffffff; border-top:1px solid #eef2f7; color:#8a94a6; font-size:12px;'>
+              © {{Year}} Progra3_TPFinal_19B · Call Center
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+  </center>
+</body>
+</html>";
+
+            return html
+                .Replace("{{CustomerName}}", System.Net.WebUtility.HtmlEncode(customerName ?? ""))
+                .Replace("{{IncidentNumber}}", System.Net.WebUtility.HtmlEncode(incidentNumber ?? ""))
+                .Replace("{{TypeName}}", System.Net.WebUtility.HtmlEncode(typeName ?? ""))
+                .Replace("{{PriorityName}}", System.Net.WebUtility.HtmlEncode(priorityName ?? ""))
+                .Replace("{{AssignedUser}}", System.Net.WebUtility.HtmlEncode(assignedUser ?? ""))
+                .Replace("{{Problem}}", System.Net.WebUtility.HtmlEncode(problem ?? ""))
+                .Replace("{{Year}}", year);
+        }
+
     }
 }

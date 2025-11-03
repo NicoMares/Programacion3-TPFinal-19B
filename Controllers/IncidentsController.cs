@@ -1,14 +1,14 @@
 ﻿// Controllers/IncidentsController.cs
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Progra3_TPFinal_19B.Models;
 using Progra3_TPFinal_19B.Models.ViewModels;
+using Progra3_TPFinal_19B.Services;
 using System;
 using System.Data;
-using Microsoft.AspNetCore.Hosting;
 using System.IO;
-
 
 namespace Progra3_TPFinal_19B.Controllers
 {
@@ -16,12 +16,14 @@ namespace Progra3_TPFinal_19B.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
+        private readonly IEmailSender _email;
 
 
-        public IncidentsController(IConfiguration configuration, IWebHostEnvironment env)
+        public IncidentsController(IConfiguration configuration, IWebHostEnvironment env, IEmailSender email)
         {
             _configuration = configuration;
             _env = env;
+            _email = email;
 
         }
 
@@ -403,7 +405,7 @@ VALUES (@IncidentId, @AssignedBy, @AssignedTo, @Note, @CreatedBy);", cn, tx))
         [HttpPost]
         [ValidateAntiForgeryToken]
         
-        public IActionResult Create(IncidentCreateViewModel model)
+        public async Task<IActionResult> CreateAsync(IncidentCreateViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -482,6 +484,43 @@ VALUES (@IncidentId, @OriginalName, @StoredName, @ContentType, @SizeBytes, @Path
                 }
 
                 tx.Commit();
+                try
+                {
+                    // Buscar datos del cliente y usuarios
+                    string custEmail = "", custName = "", typeName = "", prioName = "", assignedUser = "";
+
+                    using (var cmd = new SqlCommand(@"
+SELECT c.Email, c.Name FROM dbo.Customers c WHERE c.Id=@CustomerId;
+SELECT Name FROM dbo.IncidentTypes WHERE Id=@TypeId;
+SELECT Name FROM dbo.Priorities WHERE Id=@PriorityId;
+SELECT Username FROM dbo.Users WHERE Id=@AssignedTo;", cn))
+                    {
+                        cmd.Parameters.Add("@CustomerId", SqlDbType.UniqueIdentifier).Value = model.CustomerId;
+                        cmd.Parameters.Add("@TypeId", SqlDbType.UniqueIdentifier).Value = model.TypeId;
+                        cmd.Parameters.Add("@PriorityId", SqlDbType.UniqueIdentifier).Value = model.PriorityId;
+                        cmd.Parameters.Add("@AssignedTo", SqlDbType.UniqueIdentifier).Value = model.AssignedToUserId;
+
+                        using var rd = cmd.ExecuteReader();
+                        if (rd.Read()) { custEmail = rd.GetString(0); custName = rd.GetString(1); }
+                        rd.NextResult(); if (rd.Read()) typeName = rd.GetString(0);
+                        rd.NextResult(); if (rd.Read()) prioName = rd.GetString(0);
+                        rd.NextResult(); if (rd.Read()) assignedUser = rd.GetString(0);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(custEmail))
+                    {
+                        var subject = $"Tu incidencia {number} fue registrada";
+                        var html = EmailTemplates.IncidentCreated(
+                            custName, number, typeName, prioName, assignedUser, model.Problem);
+
+                        await _email.SendAsync(custEmail, subject, html);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // No interrumpir flujo si falla el envío
+                    Console.WriteLine($"Error enviando mail: {ex.Message}");
+                }
             }
             catch (SqlException ex) when (ex.Number is 2627 or 2601) // Unique Number
             {
