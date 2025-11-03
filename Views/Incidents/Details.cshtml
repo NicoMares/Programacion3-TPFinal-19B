@@ -53,6 +53,26 @@
                 <hr />
                 <h6>Problemática</h6>
                 <p>@Model.Problem</p>
+                @if (Model.Files?.Any() == true)
+                {
+                    <div class="mt-3">
+                        <h6 class="mb-2">Adjuntos</h6>
+                        <ul class="list-unstyled mb-0">
+                            @foreach (var f in Model.Files)
+                            {
+                                <li class="mb-1 d-flex align-items-center gap-2">
+                                    <i class="bi bi-paperclip"></i>
+                                    <a asp-action="DownloadFile" asp-route-id="@f.Id">@f.OriginalName</a>
+                                    <span class="text-muted small">(@String.Format("{0:N0} KB", Math.Ceiling(f.SizeBytes / 1024.0)))</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted small mt-3">Sin archivos adjuntos.</p>
+                }
 
                
             </div>

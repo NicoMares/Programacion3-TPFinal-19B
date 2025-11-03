@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace Progra3_TPFinal_19B.Models.ViewModels
 {
     public class IncidentDetailsViewModel
@@ -19,5 +20,8 @@ namespace Progra3_TPFinal_19B.Models.ViewModels
         public DateTime CreatedAt { get; set; }
 
         public IEnumerable<IncidentCommentItemViewModel> Comments { get; set; } = Array.Empty<IncidentCommentItemViewModel>();
+        public IEnumerable<IncidentFileItemViewModel> Files { get; set; } = Array.Empty<IncidentFileItemViewModel>();
+        
+
     }
 }

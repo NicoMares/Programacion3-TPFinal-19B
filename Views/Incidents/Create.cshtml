@@ -1,11 +1,12 @@
-﻿@model Progra3_TPFinal_19B.Models.ViewModels.IncidentCreateViewModel
+﻿@* Views/Incidents/Create.cshtml *@
+@model Progra3_TPFinal_19B.Models.ViewModels.IncidentCreateViewModel
 @{
     ViewData["Title"] = "Nueva Incidencia";
 }
 <div class="card">
     <div class="card-header bg-light">Nueva Incidencia</div>
     <div class="card-body">
-        <form asp-action="Create" method="post" class="row g-3">
+        <form asp-action="Create" method="post" enctype="multipart/form-data" class="row g-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="col-md-6">
@@ -14,9 +15,6 @@
                     <option value="">-- Seleccionar cliente --</option>
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
-                <div class="form-text">
-                    o <a asp-controller="Customers" asp-action="Create">crear nuevo cliente</a>
-                </div>
             </div>
 
             <div class="col-md-3">
@@ -47,6 +45,12 @@
                 <label asp-for="Problem" class="form-label">Problemática</label>
                 <textarea asp-for="Problem" class="form-control" rows="5" placeholder="Describí el problema..."></textarea>
                 <span asp-validation-for="Problem" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">Adjuntos</label>
+                <input asp-for="Files" type="file" multiple class="form-control" />
+                <div class="form-text">Podés seleccionar varios archivos.</div>
             </div>
 
             <div class="col-12 d-flex gap-2">
