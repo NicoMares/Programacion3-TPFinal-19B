@@ -24,3 +24,22 @@ TestResults.xml
 source/.vs/
 source/dominio/.vs/
 source/Actividad 2/.vs/
+debug/
+obj
+.obj 
+.debug
+.vs/
+bin/
+obj/
+obj/Debug/
+obj/Debug/net8.0/
+*.user
+*.cache
+*.log
+*.tmp
+*.db
+# VS / build
+.vs/
+bin/
+obj/
+*.csproj.user
