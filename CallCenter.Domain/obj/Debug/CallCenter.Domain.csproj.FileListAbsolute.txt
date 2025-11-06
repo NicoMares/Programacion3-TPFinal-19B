@@ -1,0 +1,6 @@
+C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\bin\Debug\CallCenter.Domain.dll
+C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\bin\Debug\CallCenter.Domain.pdb
+C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.AssemblyReference.cache
+C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.CoreCompileInputs.cache
+C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\CallCenter.Domain.dll
+C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\CallCenter.Domain.pdb

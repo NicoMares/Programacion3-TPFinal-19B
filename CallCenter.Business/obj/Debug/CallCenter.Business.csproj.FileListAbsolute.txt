@@ -1,0 +1,9 @@
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\bin\Debug\CallCenter.Business.dll
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\bin\Debug\CallCenter.Business.pdb
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\bin\Debug\CallCenter.Domain.dll
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\bin\Debug\CallCenter.Domain.pdb
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCenter.Business.csproj.AssemblyReference.cache
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCenter.Business.csproj.CoreCompileInputs.cache
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCent.0FD87F5D.Up2Date
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCenter.Business.dll
+C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCenter.Business.pdb
