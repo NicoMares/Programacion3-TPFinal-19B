@@ -60,6 +60,11 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\Forgot.aspx" />
     <Content Include="Account\Reset.aspx" />
+    <Content Include="Customers\Create.aspx" />
+    <Content Include="Customers\List.aspx" />
+    <Content Include="Incidents\Create.aspx" />
+    <Content Include="Incidents\Details.aspx" />
+    <Content Include="Incidents\List.aspx" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Content Include="Default.aspx" />
@@ -86,6 +91,41 @@
     </Compile>
     <Compile Include="Account\Reset.aspx.designer.cs">
       <DependentUpon>Reset.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customers\Create.aspx.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customers\Create.aspx.designer.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customers\List.aspx.cs">
+      <DependentUpon>List.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customers\List.aspx.designer.cs">
+      <DependentUpon>List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Incidents\Create.aspx.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Incidents\Create.aspx.designer.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Incidents\Details.aspx.cs">
+      <DependentUpon>Details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Incidents\Details.aspx.designer.cs">
+      <DependentUpon>Details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Incidents\List.aspx.cs">
+      <DependentUpon>List.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Incidents\List.aspx.designer.cs">
+      <DependentUpon>List.aspx</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\SmtpEmailSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

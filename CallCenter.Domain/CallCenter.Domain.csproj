@@ -30,7 +30,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\ICustomerRepository.cs" />
+    <Compile Include="Abstractions\IIncidentRepository.cs" />
     <Compile Include="Abstractions\IPasswordResetTokenRepository.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\Incident.cs" />
     <Compile Include="Entities\PasswordResetToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />

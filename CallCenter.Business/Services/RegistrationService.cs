@@ -1,5 +1,4 @@
-﻿// CallCenter.Business/Services/RegistrationService.cs
-using System;
+﻿using System;
 using CallCenter.Domain.Abstractions;
 using CallCenter.Domain.Entities;
 using CallCenter.Business.Security;
@@ -37,8 +36,7 @@ namespace CallCenter.Business.Services
             u.Username = username.Trim();
             u.FullName = fullName.Trim();
             u.Email = email.Trim();
-            u.PasswordHash = PasswordHasher.Sha256(plainPassword); // SHA-256 hex
-            // Role se fija en el INSERT (Telefonista)
+            u.PasswordHash = PasswordHasher.Sha256(plainPassword); 
 
             newUserId = _users.InsertTelefonista(u);
             return newUserId != Guid.Empty;

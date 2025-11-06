@@ -7,7 +7,7 @@ using CallCenter.Domain.Entities;
 
 namespace CallCenter.Business.Repositories
 {
-    public class UserRepository : IUserRepository /* y si querés IUserReader */
+    public class UserRepository : IUserRepository 
     {
         private readonly string _cs;
 

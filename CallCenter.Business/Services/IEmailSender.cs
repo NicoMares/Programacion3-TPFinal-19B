@@ -1,5 +1,4 @@
-﻿// CallCenter.Business/Services/IEmailSender.cs
-namespace CallCenter.Business.Services
+﻿namespace CallCenter.Business.Services
 {
     public interface IEmailSender
     {

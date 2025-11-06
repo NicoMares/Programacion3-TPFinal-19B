@@ -1,5 +1,4 @@
-﻿// CallCenter.Business/Services/PasswordResetService.cs
-using System;
+﻿using System;
 using CallCenter.Business.Security;
 using CallCenter.Domain.Abstractions;
 using CallCenter.Domain.Entities;
@@ -17,13 +16,12 @@ namespace CallCenter.Business.Services
             _tokens = tokens;
         }
 
-        // Devuelve el token en texto (para armar el link); si el mail no existe, retorna string.Empty
         public string RequestReset(string email, TimeSpan ttl)
         {
             User u = _users.FindActiveByEmail(email);
             if (u == null) return string.Empty;
 
-            _tokens.InvalidateAllForUser(u.Id); // opcional: invalidar anteriores
+            _tokens.InvalidateAllForUser(u.Id); 
 
             string token = Crypto.GenerateUrlToken();
             string hash = Crypto.Sha256(token);
