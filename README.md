@@ -9,7 +9,7 @@ El proyecto fue desarrollado utilizando el ecosistema de Microsoft, empleando un
 * **Lenguaje:** C#
 * **Framework:** ASP.NET WebForms (Aplicación Web de .NET Framework)
 * **Patrón de Diseño:** Arquitectura de N capas (Domain, Business, Web)
-* **Base de Datos:** SQL Server (Se presupone, basada en la estructura de una aplicación .NET típica)
+* **Base de Datos:** SQL Server 
 
 ## 📁 Estructura del Proyecto
 
@@ -29,7 +29,7 @@ Para levantar y ejecutar este proyecto localmente, necesitas el siguiente entorn
 ### Requisitos
 
 1.  **Visual Studio:** Se recomienda **Visual Studio 2019 o superior** con la carga de trabajo "Desarrollo web y ASP.NET".
-2.  **SDK de .NET Framework:** La versión utilizada por el proyecto (probablemente 4.x).
+2.  **SDK de .NET Framework:** 4.x.
 3.  **SQL Server:** Una instancia local para alojar la base de datos del sistema.
 
 ### Pasos para la Ejecución
