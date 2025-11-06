@@ -1,3 +1,5 @@
+C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.csproj.AssemblyReference.cache
+C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.csproj.CoreCompileInputs.cache
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\CallCenter.Web.dll
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\CallCenter.Web.pdb
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\CallCenter.Business.dll
@@ -7,8 +9,6 @@ C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\CallCenter.B
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\CallCenter.Domain.pdb
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\System.Web.WebPages.Deployment.xml
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
-C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.csproj.AssemblyReference.cache
-C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.csproj.CoreCompileInputs.cache
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCent.7CB02D86.Up2Date
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.dll
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.pdb

@@ -16,7 +16,7 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <OldToolsVersion>15.0</OldToolsVersion>
+    <OldToolsVersion>Current</OldToolsVersion>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -64,6 +64,7 @@
     <Content Include="Customers\List.aspx" />
     <Content Include="Incidents\Create.aspx" />
     <Content Include="Incidents\Details.aspx" />
+    <Content Include="Incidents\Download.aspx" />
     <Content Include="Incidents\List.aspx" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
@@ -119,6 +120,13 @@
     </Compile>
     <Compile Include="Incidents\Details.aspx.designer.cs">
       <DependentUpon>Details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Incidents\Download.aspx.cs">
+      <DependentUpon>Download.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Incidents\Download.aspx.designer.cs">
+      <DependentUpon>Download.aspx</DependentUpon>
     </Compile>
     <Compile Include="Incidents\List.aspx.cs">
       <DependentUpon>List.aspx</DependentUpon>

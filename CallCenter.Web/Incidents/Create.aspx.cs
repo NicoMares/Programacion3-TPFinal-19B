@@ -3,13 +3,17 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
+using System.IO;
+
 
 namespace CallCenter.Web.Incidents
 {
     public partial class Create : System.Web.UI.Page
     {
         private string _cs;
-
+        private Guid _userId = Guid.Empty;
+        private string _username = "";
+        private string _role = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             System.Web.UI.ValidationSettings.UnobtrusiveValidationMode =
@@ -19,19 +23,37 @@ namespace CallCenter.Web.Incidents
 
             if (!IsPostBack)
             {
-                BindLookups();
+                LoadUser();
+                BindLookups(); // llena ddl de cliente, tipo, prioridad (si ya lo tenías)
+            }
+        }
+        private void LoadUser()
+        {
+            _username = Context.User == null ? "" : Context.User.Identity.Name;
+            if (string.IsNullOrEmpty(_username))
+            {
+                Response.Redirect("~/Account/Login.aspx");
+                return;
+            }
 
-                // Preseleccionar cliente si venís de "Nuevo cliente"
-                string cid = Request.QueryString["customerId"];
-                if (!string.IsNullOrEmpty(cid))
+            using (var cn = new SqlConnection(_cs))
+            {
+                cn.Open();
+                using (var cmd = new SqlCommand(
+                    "SELECT TOP 1 Id, [Role] FROM dbo.Users WHERE Username=@u AND IsDeleted=0 AND IsBlocked=0;", cn))
                 {
-                    var item = ddlCustomer.Items.FindByValue(cid);
-                    if (item != null) ddlCustomer.SelectedValue = cid;
-
-                    if (Request.QueryString["created"] == "1")
+                    cmd.Parameters.Add("@u", SqlDbType.NVarChar, 100).Value = _username;
+                    using (var rd = cmd.ExecuteReader())
                     {
-                        lblMsg.CssClass = "alert alert-success";
-                        lblMsg.Text = "Cliente creado correctamente. Ya podés cargar la incidencia.";
+                        if (rd.Read())
+                        {
+                            _userId = rd.GetGuid(0);
+                            _role = rd.GetString(1);
+                        }
+                        else
+                        {
+                            Response.Redirect("~/Account/Login.aspx");
+                        }
                     }
                 }
             }
@@ -80,99 +102,118 @@ namespace CallCenter.Web.Incidents
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
-            Page.Validate("inc");
-            if (!Page.IsValid) return;
-
-            int customerId, priorityId, typeId;
-            if (!int.TryParse(ddlCustomer.SelectedValue, out customerId) ||
-                !int.TryParse(ddlPriority.SelectedValue, out priorityId) ||
-                !int.TryParse(ddlType.SelectedValue, out typeId))
+            // Validaciones mínimas
+            if (ddlCustomer.SelectedValue == "" || ddlType.SelectedValue == "" || ddlPriority.SelectedValue == "")
             {
-                lblMsg.CssClass = "alert alert-danger";
-                lblMsg.Text = "Seleccioná Cliente, Prioridad y Tipo válidos.";
+                lblInfo.CssClass = "text-danger";
+                lblInfo.Text = "Seleccioná cliente, tipo y prioridad.";
                 return;
             }
 
-            string problem = txtProblem.Text == null ? "" : txtProblem.Text.Trim();
-            if (problem.Length == 0)
-            {
-                lblMsg.CssClass = "alert alert-danger";
-                lblMsg.Text = "La problemática es obligatoria.";
-                return;
-            }
+            // Asegurá usuario cargado
+            if (_userId == Guid.Empty || string.IsNullOrEmpty(_username))
+                LoadUser();
 
-            // Usuario actual
-            string username = Context.User == null ? "" : Context.User.Identity.Name;
-            if (string.IsNullOrEmpty(username))
-            {
-                Response.Redirect("~/Account/Login.aspx");
-                return;
-            }
+            Guid incidentId = Guid.Empty;
 
-            Guid currentUserId = Guid.Empty;
-            using (SqlConnection cn = new SqlConnection(_cs))
+            using (var cn = new SqlConnection(_cs))
             {
                 cn.Open();
-                using (SqlCommand u = new SqlCommand(
-                    "SELECT TOP 1 Id FROM dbo.Users WHERE Username=@u AND IsDeleted=0 AND IsBlocked=0;", cn))
+                using (var tx = cn.BeginTransaction())
                 {
-                    u.Parameters.Add("@u", SqlDbType.NVarChar, 100).Value = username;
-                    object o = u.ExecuteScalar();
-                    if (o == null)
+                    try
                     {
-                        lblMsg.CssClass = "alert alert-danger";
-                        lblMsg.Text = "Usuario inválido.";
+                        // INSERT con CreatedByUserId y AssignedToUserId = creador
+                        using (var cmd = new SqlCommand(@"
+INSERT INTO dbo.Incidents
+( Id, CustomerId, IncidentTypeId, PriorityId, Problem, Status, CreatedAt, CreatedByUserId, AssignedToUserId )
+OUTPUT INSERTED.Id
+VALUES
+( NEWID(), @c, @t, @p, @pr, N'Abierto', SYSUTCDATETIME(), @uid, @uid );", cn, tx))
+                        {
+                            // si CustomerId es GUID:
+                            cmd.Parameters.Add("@c", SqlDbType.Int).Value = int.Parse(ddlCustomer.SelectedValue);
+                            // si fuera INT, usar: cmd.Parameters.Add("@c", SqlDbType.Int).Value = int.Parse(ddlCustomer.SelectedValue);
+
+                            cmd.Parameters.Add("@t", SqlDbType.Int).Value = int.Parse(ddlType.SelectedValue);
+                            cmd.Parameters.Add("@p", SqlDbType.Int).Value = int.Parse(ddlPriority.SelectedValue);
+                            cmd.Parameters.Add("@pr", SqlDbType.NVarChar, 1000).Value = (object)(txtProblem.Text ?? "").Trim();
+                            cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
+
+                            incidentId = (Guid)cmd.ExecuteScalar();
+                        }
+
+                        // Nota de sistema
+                        using (var m = new SqlCommand(@"
+INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
+VALUES(@iid, @uid, @sn, @msg);", cn, tx))
+                        {
+                            m.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = incidentId;
+                            m.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
+                            m.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username;
+                            m.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value = "Incidencia creada.";
+                            m.ExecuteNonQuery();
+                        }
+
+                        // Adjuntos (si usás el FileUpload fuFiles)
+                        SaveAttachments(incidentId, cn, tx);
+
+                        tx.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        tx.Rollback();
+                        lblInfo.CssClass = "text-danger";
+                        lblInfo.Text = "No se pudo crear la incidencia: " + ex.Message;
                         return;
                     }
-                    currentUserId = (Guid)o;
                 }
+            }
 
-                // Insert Incidence (nace Abierto y asignada al creador)
-                Guid newId = Guid.Empty;
-                using (SqlCommand cmd = new SqlCommand(@"
-INSERT INTO dbo.Incidents
-    (Id, CustomerId, IncidentTypeId, PriorityId, Problem, Status, CreatedAt, CreatedByUserId, AssignedToUserId)
-OUTPUT inserted.Id
-VALUES
-    (NEWID(), @c, @t, @p, @prob, N'Abierto', SYSUTCDATETIME(), @uid, @uid);", cn))
+            Response.Redirect("Details.aspx?id=" + incidentId.ToString(), endResponse: true);
+        }
+
+        private void SaveAttachments(Guid incidentId, SqlConnection cn, SqlTransaction tx)
+        {
+            // sin archivos? salir
+            if (fuFiles == null || !fuFiles.HasFiles) return;
+
+            // carpeta física donde guardamos
+            // recomendación: ~/App_Data/Uploads  (no servida directamente)
+            string baseDir = Server.MapPath("~/App_Data/Uploads");
+            if (!Directory.Exists(baseDir))
+                Directory.CreateDirectory(baseDir);
+
+            foreach (var posted in fuFiles.PostedFiles)
+            {
+                var file = posted as HttpPostedFile;
+                if (file == null) continue;
+                if (file.ContentLength <= 0) continue;
+
+                // (opcional) validar tamaño/extensiones
+                // if (file.ContentLength > 50 * 1024 * 1024) throw new Exception("Archivo excede 50MB");
+
+                string originalName = Path.GetFileName(file.FileName);
+                string storedName = Guid.NewGuid().ToString("N") + Path.GetExtension(originalName);
+                string fullPath = Path.Combine(baseDir, storedName);
+
+                file.SaveAs(fullPath);
+
+                using (var cmd = new SqlCommand(@"
+INSERT INTO dbo.IncidentAttachments(Id, IncidentId, FileName, StoredName, ContentType, FileSizeBytes, UploadedByUserId)
+VALUES(NEWID(), @iid, @fn, @sn, @ct, @sz, @uid);", cn, tx))
                 {
-                    cmd.Parameters.Add("@c", SqlDbType.Int).Value = customerId;
-                    cmd.Parameters.Add("@t", SqlDbType.Int).Value = typeId;
-                    cmd.Parameters.Add("@p", SqlDbType.Int).Value = priorityId;
-                    cmd.Parameters.Add("@prob", SqlDbType.NVarChar, 2000).Value = problem;
-                    cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = currentUserId;
-
-                    object o = cmd.ExecuteScalar();
-                    if (o != null) newId = (Guid)o;
+                    cmd.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = incidentId;
+                    cmd.Parameters.Add("@fn", SqlDbType.NVarChar, 260).Value = originalName;
+                    cmd.Parameters.Add("@sn", SqlDbType.NVarChar, 260).Value = storedName;
+                    cmd.Parameters.Add("@ct", SqlDbType.NVarChar, 100).Value = (object)file.ContentType ?? DBNull.Value;
+                    cmd.Parameters.Add("@sz", SqlDbType.BigInt).Value = file.ContentLength;
+                    cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
+                    cmd.ExecuteNonQuery();
                 }
-
-                if (newId == Guid.Empty)
-                {
-                    lblMsg.CssClass = "alert alert-danger";
-                    lblMsg.Text = "No se pudo crear la incidencia.";
-                    return;
-                }
-
-                // (Opcional) dejar traza inicial en el chat
-                using (SqlCommand m = new SqlCommand(@"
-INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
-VALUES(@iid, @uid, @sn, @msg);", cn))
-                {
-                    m.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = newId;
-                    m.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = currentUserId;
-                    m.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = username;
-                    m.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value = "Incidencia creada (estado: Abierto).";
-                    m.ExecuteNonQuery();
-                }
-
-                // (Opcional) envío de mail al cliente aquí si ya tenés tu servicio listo
-                // string customerEmail = GetCustomerEmail(cn, customerId);  // implementar si querés
-                // EmailSender.Send(customerEmail, "Alta de incidencia", "...");
-
-                // Redirigir al detalle
-                Response.Redirect("~/Incidents/Details.aspx?id=" + newId.ToString());
             }
         }
+
 
         // (Opcional) helper para email del cliente
         private string GetCustomerEmail(SqlConnection cn, int customerId)

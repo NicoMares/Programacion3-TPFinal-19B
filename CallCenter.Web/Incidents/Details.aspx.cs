@@ -25,8 +25,9 @@ namespace CallCenter.Web.Incidents
             string qs = Request.QueryString["id"];
             if (string.IsNullOrEmpty(qs) || !Guid.TryParse(qs, out _incidentId))
             {
-                lblInfo.CssClass = "alert alert-danger";
-                lblInfo.Text = "Incidencia no válida.";
+                lblHeaderInfo.CssClass = "alert alert-danger";
+                lblHeaderInfo.Text = "Incidencia no válida.";
+
                 DisableChat();
                 DisableActions();
                 return;
@@ -39,6 +40,7 @@ namespace CallCenter.Web.Incidents
             {
                 LoadIncidentHeader();   // guarda Status y Assigned en ViewState
                 BindMessages();
+                BindAttachments();
                 BindAssignableUsers();
                 ApplyPermissions();     // deshabilita si es estado final
 
@@ -99,36 +101,39 @@ namespace CallCenter.Web.Incidents
             {
                 cn.Open();
                 using (SqlCommand cmd = new SqlCommand(@"
-                    SELECT i.Id, c.Name AS Cliente, p.Name AS Prioridad, t.Name AS Tipo, 
-                           i.Problem, i.Status, i.CreatedAt, i.AssignedToUserId
-                    FROM dbo.Incidents i
-                    INNER JOIN dbo.Customers c ON c.Id = i.CustomerId
-                    INNER JOIN dbo.Priorities p ON p.Id = i.PriorityId
-                    INNER JOIN dbo.IncidentTypes t ON t.Id = i.IncidentTypeId
-                    WHERE i.Id = @id;", cn))
+            SELECT i.Id, c.Name AS Cliente, p.Name AS Prioridad, t.Name AS Tipo, 
+                   i.Problem, i.Status, i.CreatedAt,
+                   u.Username AS AsignadoA
+            FROM dbo.Incidents i
+            INNER JOIN dbo.Customers c ON c.Id = i.CustomerId
+            INNER JOIN dbo.Priorities p ON p.Id = i.PriorityId
+            INNER JOIN dbo.IncidentTypes t ON t.Id = i.IncidentTypeId
+            LEFT JOIN dbo.Users u ON u.Id = i.AssignedToUserId
+            WHERE i.Id = @id;", cn))
                 {
                     cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
                     using (SqlDataReader rd = cmd.ExecuteReader())
                     {
                         if (rd.Read())
                         {
-                            // persistir datos para permisos/ddl
-                            ViewState["AssignedToUserId"] = rd.IsDBNull(7) ? (object)DBNull.Value : rd.GetGuid(7);
-                            ViewState["Status"] = Convert.ToString(rd["Status"]) ?? "";
-
-                            lblInfo.Text = "<div class='card p-3 shadow-sm'>" +
-                                "<strong>ID:</strong> " + rd["Id"] + "<br/>" +
-                                "<strong>Cliente:</strong> " + HttpUtility.HtmlEncode(Convert.ToString(rd["Cliente"])) + "<br/>" +
-                                "<strong>Tipo:</strong> " + HttpUtility.HtmlEncode(Convert.ToString(rd["Tipo"])) + "<br/>" +
-                                "<strong>Prioridad:</strong> " + HttpUtility.HtmlEncode(Convert.ToString(rd["Prioridad"])) + "<br/>" +
-                                "<strong>Estado:</strong> " + HttpUtility.HtmlEncode(Convert.ToString(rd["Status"])) + "<br/>" +
-                                "<strong>Problemática:</strong> " + HttpUtility.HtmlEncode(Convert.ToString(rd["Problem"])) + "<br/>" +
-                                "<strong>Fecha:</strong> " + Convert.ToDateTime(rd["CreatedAt"]).ToLocalTime().ToString("dd/MM/yyyy HH:mm") + "</div>";
+                            string asignado = rd["AsignadoA"] == DBNull.Value ? "(Sin asignar)" : rd["AsignadoA"].ToString();
+                            lblHeaderInfo.Text = $@"
+                        <div class='row g-2'>
+                            <div class='col-md-6'><strong>ID:</strong> {rd["Id"]}</div>
+                            <div class='col-md-6'><strong>Estado:</strong> {rd["Status"]}</div>
+                            <div class='col-md-6'><strong>Cliente:</strong> {HttpUtility.HtmlEncode(rd["Cliente"].ToString())}</div>
+                            <div class='col-md-6'><strong>Asignado a:</strong> {HttpUtility.HtmlEncode(asignado)}</div>
+                            <div class='col-md-6'><strong>Tipo:</strong> {HttpUtility.HtmlEncode(rd["Tipo"].ToString())}</div>
+                            <div class='col-md-6'><strong>Prioridad:</strong> {HttpUtility.HtmlEncode(rd["Prioridad"].ToString())}</div>
+                            <div class='col-12'><strong>Problemática:</strong><br/>{HttpUtility.HtmlEncode(rd["Problem"].ToString())}</div>
+                            <div class='col-12'><strong>Fecha:</strong> {Convert.ToDateTime(rd["CreatedAt"]).ToLocalTime():dd/MM/yyyy HH:mm}</div>
+                        </div>";
                         }
                         else
                         {
-                            lblInfo.CssClass = "alert alert-danger";
-                            lblInfo.Text = "Incidencia no encontrada.";
+                            lblHeaderInfo.CssClass = "alert alert-danger";
+                            lblHeaderInfo.Text = "Incidencia no válida.";
+
                             DisableChat();
                             DisableActions();
                         }
@@ -136,6 +141,7 @@ namespace CallCenter.Web.Incidents
                 }
             }
         }
+
 
         private bool IsFinalStatus()
         {
@@ -153,7 +159,6 @@ namespace CallCenter.Web.Incidents
 
         private void DisableActions()
         {
-            btnAnalysis.Enabled = false;
             ddlAssign.Enabled = false;
             btnAssign.Enabled = false;
             txtResolution.Enabled = false;
@@ -281,20 +286,75 @@ namespace CallCenter.Web.Incidents
             using (SqlConnection cn = new SqlConnection(_cs))
             {
                 cn.Open();
-                using (SqlCommand cmd = new SqlCommand(@"
-                    INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
-                    VALUES(@iid, @uid, @sn, @msg);", cn))
+                using (SqlTransaction tx = cn.BeginTransaction())
                 {
-                    cmd.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                    cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
-                    cmd.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username;
-                    cmd.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value = msg;
-                    cmd.ExecuteNonQuery();
+                    try
+                    {
+                        // 1) Insertar mensaje
+                        using (SqlCommand cmd = new SqlCommand(@"
+INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
+VALUES(@iid, @uid, @sn, @msg);", cn, tx))
+                        {
+                            cmd.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                            cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
+                            cmd.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username;
+                            cmd.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value = msg;
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // 2) Si no está Resuelto/Cerrado → pasar a En Análisis
+                        string statusActual = "";
+                        using (SqlCommand s = new SqlCommand(
+                            "SELECT Status FROM dbo.Incidents WHERE Id=@id;", cn, tx))
+                        {
+                            s.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                            object o = s.ExecuteScalar();
+                            statusActual = (o == null || o == DBNull.Value) ? "" : (string)o;
+                        }
+
+                        if (!statusActual.Equals("Resuelto", StringComparison.OrdinalIgnoreCase) &&
+                            !statusActual.Equals("Cerrado", StringComparison.OrdinalIgnoreCase) &&
+                            !statusActual.Equals("En Análisis", StringComparison.OrdinalIgnoreCase))
+                        {
+                            using (SqlCommand u = new SqlCommand(
+                                "UPDATE dbo.Incidents SET Status=N'En Análisis' WHERE Id=@id;", cn, tx))
+                            {
+                                u.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                                u.ExecuteNonQuery();
+                            }
+
+                            using (SqlCommand m = new SqlCommand(@"
+INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
+VALUES(@iid, @uid, @sn, @msg);", cn, tx))
+                            {
+                                m.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                                m.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
+                                m.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username; // o "Sistema"
+                                m.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value =
+                                    "Estado cambiado a 'En Análisis' por actividad en el chat.";
+                                m.ExecuteNonQuery();
+                            }
+                        }
+
+                        tx.Commit();
+                    }
+                    catch
+                    {
+                        tx.Rollback();
+                        lblChatMsg.CssClass = "text-danger";
+                        lblChatMsg.Text = "No se pudo enviar el mensaje.";
+                        return;
+                    }
                 }
             }
 
+            txtMsg.Text = "";
+            lblChatMsg.CssClass = "text-success";
+            lblChatMsg.Text = "Mensaje enviado.";
+            LoadIncidentHeader();
+            BindMessages();
             // PRG
-            Response.Redirect("Details.aspx?id=" + _incidentId.ToString());
+            Response.Redirect("Details.aspx?id=" + _incidentId.ToString(), endResponse: true);
         }
 
         protected void btnRefresh_Click(object sender, EventArgs e)
@@ -352,25 +412,12 @@ VALUES(@iid, @uid, @sn, @msg);", cn))
 
         protected void btnAssign_Click(object sender, EventArgs e)
         {
-            if (IsFinalStatus())
-            {
-                lblActionsMsg.CssClass = "text-warning";
-                lblActionsMsg.Text = "La incidencia está finalizada. No se puede reasignar.";
-                return;
-            }
-
             bool canAssign =
                 string.Equals(_role, "Administrador", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(_role, "Supervisor", StringComparison.OrdinalIgnoreCase);
-            if (!canAssign)
-            {
-                lblActionsMsg.CssClass = "text-danger";
-                lblActionsMsg.Text = "No tenés permisos para reasignar.";
-                return;
-            }
+            if (!canAssign) return;
 
-            Guid newUid;
-            if (!Guid.TryParse(ddlAssign.SelectedValue, out newUid) || newUid == Guid.Empty)
+            if (!Guid.TryParse(ddlAssign.SelectedValue, out Guid newUid) || newUid == Guid.Empty)
             {
                 lblActionsMsg.CssClass = "text-danger";
                 lblActionsMsg.Text = "Seleccione un usuario válido.";
@@ -384,43 +431,55 @@ VALUES(@iid, @uid, @sn, @msg);", cn))
                 {
                     try
                     {
+                        // Evitar cambios si está Resuelto/Cerrado
+                        string statusActual = "";
+                        using (SqlCommand s = new SqlCommand(
+                            "SELECT Status FROM dbo.Incidents WHERE Id=@id;", cn, tx))
+                        {
+                            s.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                            object o = s.ExecuteScalar();
+                            statusActual = (o == null || o == DBNull.Value) ? "" : (string)o;
+                        }
+                        if (statusActual.Equals("Resuelto", StringComparison.OrdinalIgnoreCase) ||
+                            statusActual.Equals("Cerrado", StringComparison.OrdinalIgnoreCase))
+                        {
+                            lblActionsMsg.CssClass = "text-danger";
+                            lblActionsMsg.Text = "La incidencia está cerrada o resuelta. No se puede reasignar.";
+                            tx.Rollback();
+                            return;
+                        }
+
+                        // Reasignar y pasar a En Análisis
                         using (SqlCommand cmd = new SqlCommand(@"
 UPDATE dbo.Incidents
-SET AssignedToUserId=@uid, Status=N'Asignado'
+SET AssignedToUserId=@uid, Status=N'En Análisis'
 WHERE Id=@id;", cn, tx))
                         {
                             cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
                             cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = newUid;
                             int n = cmd.ExecuteNonQuery();
-                            if (n == 0) throw new Exception("Incidencia inexistente.");
+                            if (n <= 0) throw new Exception("No se pudo reasignar.");
                         }
 
-                        string assigneeName = ddlAssign.SelectedItem != null ? ddlAssign.SelectedItem.Text : "(usuario)";
-                        using (SqlCommand m = new SqlCommand(@"
-INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
-VALUES(@iid, @uid, @sn, @msg);", cn, tx))
-                        {
-                            m.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                            m.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
-                            m.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username;
-                            m.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value =
-                                "Incidencia reasignada a " + assigneeName + ".";
-                            m.ExecuteNonQuery();
-                        }
+                        // Notas al chat
+                        InsertSystemNoteTx(cn, tx, "Incidencia reasignada a " + ddlAssign.SelectedItem.Text + ".");
+                        InsertSystemNoteTx(cn, tx, "Estado cambiado a 'En Análisis' por reasignación.");
 
                         tx.Commit();
+
+                        lblActionsMsg.CssClass = "text-success";
+                        lblActionsMsg.Text = "Incidencia reasignada (estado: En Análisis).";
+                        LoadIncidentHeader();
+                        BindMessages();
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         tx.Rollback();
                         lblActionsMsg.CssClass = "text-danger";
-                        lblActionsMsg.Text = "No se pudo reasignar.";
-                        return;
+                        lblActionsMsg.Text = "No se pudo reasignar: " + ex.Message;
                     }
                 }
             }
-
-            Response.Redirect("Details.aspx?id=" + _incidentId.ToString() + "&reassigned=1");
         }
 
         protected void btnResolve_Click(object sender, EventArgs e)
@@ -540,5 +599,74 @@ VALUES(@iid, @uid, @sn, @msg);", cn, tx))
 
             Response.Redirect("Details.aspx?id=" + _incidentId.ToString() + "&closed=1");
         }
+
+        private void BindAttachments()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Id", typeof(Guid));
+            dt.Columns.Add("FileName", typeof(string));
+            dt.Columns.Add("SizePretty", typeof(string));
+            dt.Columns.Add("Uploader", typeof(string));
+            dt.Columns.Add("UploadedAtLocal", typeof(DateTime));
+
+            using (var cn = new SqlConnection(_cs))
+            {
+                cn.Open();
+                using (var cmd = new SqlCommand(@"
+SELECT a.Id, a.FileName, a.FileSizeBytes, u.Username AS Uploader, a.UploadedAt
+FROM dbo.IncidentAttachments a
+LEFT JOIN dbo.Users u ON u.Id = a.UploadedByUserId
+WHERE a.IncidentId = @iid
+ORDER BY a.UploadedAt DESC;", cn))
+                {
+                    cmd.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                    using (var rd = cmd.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            DataRow r = dt.NewRow();
+                            r["Id"] = rd.GetGuid(0);
+                            r["FileName"] = Convert.ToString(rd["FileName"]);
+                            long size = Convert.ToInt64(rd["FileSizeBytes"]);
+                            r["SizePretty"] = PrettySize(size);
+                            r["Uploader"] = Convert.ToString(rd["Uploader"]);
+                            r["UploadedAtLocal"] = Convert.ToDateTime(rd["UploadedAt"]).ToLocalTime();
+                            dt.Rows.Add(r);
+                        }
+                    }
+                }
+            }
+
+            rpFiles.DataSource = dt;
+            rpFiles.DataBind();
+
+            lblFilesInfo.Text = dt.Rows.Count == 0 ? "Sin adjuntos." : "";
+        }
+
+        private string PrettySize(long bytes)
+        {
+            const long K = 1024, M = K * 1024, G = M * 1024;
+            if (bytes >= G) return (bytes / (double)G).ToString("0.##") + " GB";
+            if (bytes >= M) return (bytes / (double)M).ToString("0.##") + " MB";
+            if (bytes >= K) return (bytes / (double)K).ToString("0.##") + " KB";
+            return bytes + " B";
+        }
+
+        private void InsertSystemNoteTx(SqlConnection cn, SqlTransaction tx, string text)
+        {
+            using (SqlCommand cmd = new SqlCommand(@"
+INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
+VALUES(@iid, @uid, @sn, @msg);", cn, tx))
+            {
+                cmd.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId; // o DBNull si querés “Sistema”
+                cmd.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username;   // o "Sistema"
+                cmd.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value = text;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
+
     }
 }

@@ -4,139 +4,156 @@
 <head runat="server">
   <meta charset="utf-8" />
   <title>Detalle de Incidencia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
   <style>
-    .chat-box{max-height:420px; overflow:auto; background:#fafafa; border-radius:.5rem; border:1px solid #e9ecef;}
-    .msg{padding:.5rem .75rem; border-radius:.5rem; margin-bottom:.5rem;}
-    .me{background:#e7f1ff;}
-    .other{background:#f1f3f5;}
-    .meta{font-size:.8rem; color:#6c757d;}
+    body { background-color: #f8f9fa; }
+    .chat-box { max-height: 420px; overflow-y: auto; background: #fff; border: 1px solid #dee2e6; border-radius: .5rem; padding: .5rem; }
+    .msg { padding: .5rem .75rem; border-radius: .5rem; margin-bottom: .5rem; word-break: break-word; }
+    .me { background: #e7f1ff; }
+    .other { background: #f1f3f5; }
+    .meta { font-size: .8rem; color: #6c757d; }
+    .right-panel { background: #fff; border: 1px solid #dee2e6; border-radius: .5rem; padding: 1rem; position: sticky; top: 1rem; }
+    .ticket-card { background: #fff; border: 1px solid #dee2e6; border-radius: .5rem; padding: 1rem; margin-bottom: 1rem; }
   </style>
 </head>
 <body>
 <form id="form1" runat="server">
   <div class="container py-4">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h3 class="mb-0">Detalle de incidencia</h3>
-      <asp:HyperLink ID="hlBack" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn btn-outline-primary">
-        Volver al panel
-      </asp:HyperLink>
-    </div>
-
-    <asp:Label ID="lblInfo" runat="server" CssClass="d-block mb-3"></asp:Label>
-
-    <!-- ======== CHAT ======== -->
-    <div class="card shadow-sm mb-3">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span class="fw-semibold">Conversación</span>
-        <div class="d-flex align-items-center gap-2">
-          <asp:Button ID="btnRefresh" runat="server" Text="Actualizar"
-            CssClass="btn btn-sm btn-outline-secondary" OnClick="btnRefresh_Click" UseSubmitBehavior="false" />
-        </div>
-      </div>
-      <div class="card-body">
-        <div id="chat" class="chat-box mb-3">
-          <asp:Repeater ID="rpMsgs" runat="server">
-            <ItemTemplate>
-              <div class='msg <%# (bool)Eval("IsMe") ? "me" : "other" %>'>
-                <div class="meta">
-                  <strong><%# Eval("SenderName") %></strong> ·
-                  <%# Eval("CreatedAtLocal","{0:dd/MM/yyyy HH:mm}") %>
-                </div>
-                <div><%# Eval("Message") %></div>
-              </div>
-            </ItemTemplate>
-          </asp:Repeater>
-        </div>
-
-        <div class="row g-2">
-          <div class="col-12">
-            <asp:TextBox ID="txtMsg" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" />
-            <asp:RequiredFieldValidator runat="server"
-              ControlToValidate="txtMsg"
-              ErrorMessage="El mensaje es obligatorio"
-              CssClass="text-danger small"
-              ValidationGroup="chat" Display="Dynamic" EnableClientScript="true" />
-          </div>
-          <div class="col-12 d-flex justify-content-end">
-            <asp:Button ID="btnSend" runat="server" Text="Enviar" CssClass="btn btn-primary"
-              ValidationGroup="chat" CausesValidation="true"
-              UseSubmitBehavior="true"
-              OnClick="btnSend_Click" />
-          </div>
-        </div>
-
-        <asp:Label ID="lblChatMsg" runat="server" CssClass="d-block mt-2"></asp:Label>
-      </div>
-    </div>
-
-    <!-- ======== ACCIONES DE LA INCIDENCIA ======== -->
-    <div class="card mt-4 shadow-sm">
-      <div class="card-header fw-semibold">Acciones de la incidencia</div>
-      <div class="card-body">
-
-        <!-- Marcar En Análisis -->
-        <div class="mb-3">
-          <asp:Button ID="btnAnalysis" runat="server" Text="Marcar como En Análisis"
-            CssClass="btn btn-outline-secondary" OnClick="btnAnalysis_Click" UseSubmitBehavior="true" />
-        </div>
-
-        <!-- Reasignar -->
-        <div class="row g-2 align-items-end mb-3">
-          <div class="col-md-6">
-            <label class="form-label">Reasignar a</label>
-            <asp:DropDownList ID="ddlAssign" runat="server" CssClass="form-select" />
-          </div>
-          <div class="col-md-3">
-            <asp:Button ID="btnAssign" runat="server" Text="Reasignar"
-              CssClass="btn btn-outline-primary w-100"
-              OnClick="btnAssign_Click" UseSubmitBehavior="true" />
-          </div>
-        </div>
-
-        <!-- Resolver -->
-        <div class="mb-3">
-          <label class="form-label">Nota de resolución (obligatoria)</label>
-          <asp:TextBox ID="txtResolution" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" />
-          <asp:RequiredFieldValidator runat="server"
-            ControlToValidate="txtResolution"
-            ErrorMessage="La nota de resolución es obligatoria"
-            CssClass="text-danger small" ValidationGroup="resolve" Display="Dynamic" />
-          <asp:Button ID="btnResolve" runat="server" Text="Resolver incidencia"
-            CssClass="btn btn-success mt-2"
-            ValidationGroup="resolve" CausesValidation="true"
-            OnClick="btnResolve_Click" UseSubmitBehavior="true" />
-        </div>
-
-        <!-- Cerrar -->
-        <div class="mb-3">
-          <label class="form-label">Comentario de cierre (obligatorio)</label>
-          <asp:TextBox ID="txtClose" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" />
-          <asp:RequiredFieldValidator runat="server"
-            ControlToValidate="txtClose"
-            ErrorMessage="El comentario de cierre es obligatorio"
-            CssClass="text-danger small" ValidationGroup="close" Display="Dynamic" />
-          <asp:Button ID="btnClose" runat="server" Text="Cerrar incidencia"
-            CssClass="btn btn-danger mt-2"
-            ValidationGroup="close" CausesValidation="true"
-            OnClick="btnClose_Click" UseSubmitBehavior="true" />
-        </div>
-
-        <asp:Label ID="lblActionsMsg" runat="server" CssClass="d-block mt-2"></asp:Label>
-      </div>
-    </div>
-
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Detalle de incidencia</h3>
+    <asp:HyperLink ID="hlBack" runat="server" NavigateUrl="~/Default.aspx"
+                   CssClass="btn btn-outline-primary">Volver al panel</asp:HyperLink>
   </div>
 
-  <!-- Auto-scroll del chat al final en cada carga -->
-  <script type="text/javascript">
+  <div class="row g-4">
+    <div class="col-lg-8 col-md-7">
+     <!-- Detalles del Ticket -->
+<div class="ticket-card shadow-sm mb-3">
+  <h5 class="border-bottom pb-2 mb-3">🧾 Detalles del Ticket</h5>
+  <asp:Label ID="lblHeaderInfo" runat="server"></asp:Label>
+</div>
+
+      <!-- Chat -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">💬 Conversación</span>
+          <asp:Button ID="btnRefresh" runat="server" Text="Actualizar"
+                      CssClass="btn btn-sm btn-outline-secondary"
+                      OnClick="btnRefresh_Click" UseSubmitBehavior="false" />
+        </div>
+        <div class="card-body">
+          <div id="chat" class="chat-box mb-3">
+            <asp:Repeater ID="rpMsgs" runat="server">
+              <ItemTemplate>
+                <div class='msg <%# (bool)Eval("IsMe") ? "me" : "other" %>'>
+                  <div class="meta">
+                    <strong><%# Eval("SenderName") %></strong> · <%# Eval("CreatedAtLocal","{0:dd/MM/yyyy HH:mm}") %>
+                  </div>
+                  <div><%# Eval("Message") %></div>
+                </div>
+              </ItemTemplate>
+            </asp:Repeater>
+          </div>
+          <div class="row g-2">
+            <div class="col-12">
+              <asp:TextBox ID="txtMsg" runat="server" CssClass="form-control"
+                           TextMode="MultiLine" Rows="3" />
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+              <asp:Button ID="btnSend" runat="server" Text="Enviar"
+                          CssClass="btn btn-primary"
+                          OnClick="btnSend_Click" UseSubmitBehavior="false" />
+            </div>
+          </div>
+          <asp:Label ID="lblChatMsg" runat="server" CssClass="d-block mt-2"></asp:Label>
+        </div>
+      </div>
+
+      <!-- Archivos adjuntos -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header"><strong>📎 Archivos adjuntos</strong></div>
+        <div class="card-body">
+          <asp:Repeater ID="rpFiles" runat="server">
+            <HeaderTemplate><ul class="list-group list-group-flush"></HeaderTemplate>
+            <ItemTemplate>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-file-earmark"></i> <%# Eval("FileName") %></span>
+                <asp:HyperLink runat="server"
+    CssClass="btn btn-sm btn-outline-primary"
+    NavigateUrl='<%# ResolveUrl("~/Incidents/Download.aspx?id=" + Eval("Id")) %>'
+    Text="Descargar" />
+
+              </li>
+            </ItemTemplate>
+            <FooterTemplate></ul></FooterTemplate>
+          </asp:Repeater>
+          <asp:Label ID="lblFilesInfo" runat="server"
+                     CssClass="text-muted small mt-2 d-block"></asp:Label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⚙️ Columna derecha: acciones -->
+    <div class="col-lg-4 col-md-5">
+      <div class="card shadow-sm">
+        <div class="card-header"><strong>Acciones</strong></div>
+        <div class="card-body">
+          
+
+          <asp:DropDownList ID="ddlAssign" runat="server" CssClass="form-select mb-2" Visible="false"></asp:DropDownList>
+          <asp:Button ID="btnAssign" runat="server" Text="Reasignar"
+                      CssClass="btn btn-outline-warning w-100 mb-3"
+                      OnClick="btnAssign_Click" UseSubmitBehavior="true" Visible="false" />
+
+          <!-- Resolver -->
+          <button type="button" class="btn btn-outline-success w-100 mb-2" onclick="toggleBox('resolveBox')">
+            Resolver
+          </button>
+          <div id="resolveBox" class="collapse mt-2">
+            <asp:TextBox ID="txtResolution" runat="server" CssClass="form-control mb-2"
+                         TextMode="MultiLine" Rows="3" placeholder="Describa la resolución..."></asp:TextBox>
+            <asp:Button ID="btnResolve" runat="server" Text="Confirmar resolución"
+                        CssClass="btn btn-success w-100" OnClick="btnResolve_Click" />
+          </div>
+
+          <!-- Cerrar -->
+          <button type="button" class="btn btn-outline-danger w-100 mb-2" onclick="toggleBox('closeBox')">
+            Cerrar incidencia
+          </button>
+          <div id="closeBox" class="collapse mt-2">
+            <asp:TextBox ID="txtClose" runat="server" CssClass="form-control mb-2"
+                         TextMode="MultiLine" Rows="3" placeholder="Comentario final de cierre..."></asp:TextBox>
+            <asp:Button ID="btnClose" runat="server" Text="Confirmar cierre"
+                        CssClass="btn btn-danger w-100" OnClick="btnClose_Click" />
+          </div>
+
+          <asp:Label ID="lblActionsMsg" runat="server" CssClass="d-block mt-3"></asp:Label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script>
       window.addEventListener('load', function () {
           var box = document.getElementById('chat');
-          if (box) { box.scrollTop = box.scrollHeight; }
+          if (box) box.scrollTop = box.scrollHeight;
       });
   </script>
 </form>
+   <script>
+       function toggleBox(id) {
+           const el = document.getElementById(id);
+           if (el) el.classList.toggle('show');
+       }
+       window.addEventListener('load', () => {
+           const box = document.getElementById('chat');
+           if (box) box.scrollTop = box.scrollHeight;
+       });
+   </script>
+
 </body>
 </html>

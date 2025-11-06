@@ -43,8 +43,19 @@
         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtProblem" ErrorMessage="Problemática obligatoria" CssClass="text-danger small" ValidationGroup="inc" />
       </div>
     </div>
+<div class="card mt-3 shadow-sm">
+  <div class="card-header fw-semibold">Adjuntar archivos (opcional)</div>
+  <div class="card-body">
+    <asp:FileUpload ID="fuFiles" runat="server" CssClass="form-control" AllowMultiple="true" />
+    <small class="text-muted">Podés seleccionar uno o varios archivos. Máx. 50MB en total (configurable).</small>
+  </div>
+</div>
+
 
     <div class="mt-4 d-flex gap-2">
+        <div class="mt-3">
+  <asp:Label ID="lblInfo" runat="server" CssClass="text-muted"></asp:Label>
+</div>
       <asp:Button ID="btnCreate" runat="server" Text="Crear" CssClass="btn btn-success"
           ValidationGroup="inc" UseSubmitBehavior="false"
           OnClientClick="if(typeof(Page_ClientValidate)==='function'){ if(!Page_ClientValidate('inc')){ return false; } } this.disabled=true; this.value='Creando...';"

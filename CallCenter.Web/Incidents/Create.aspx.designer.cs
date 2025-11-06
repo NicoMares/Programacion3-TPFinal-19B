@@ -69,6 +69,24 @@ namespace CallCenter.Web.Incidents
         protected global::System.Web.UI.WebControls.TextBox txtProblem;
 
         /// <summary>
+        /// Control fuFiles.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuFiles;
+
+        /// <summary>
+        /// Control lblInfo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInfo;
+
+        /// <summary>
         /// Control btnCreate.
         /// </summary>
         /// <remarks>

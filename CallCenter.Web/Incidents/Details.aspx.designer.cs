@@ -33,13 +33,13 @@ namespace CallCenter.Web.Incidents
         protected global::System.Web.UI.WebControls.HyperLink hlBack;
 
         /// <summary>
-        /// Control lblInfo.
+        /// Control lblHeaderInfo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInfo;
+        protected global::System.Web.UI.WebControls.Label lblHeaderInfo;
 
         /// <summary>
         /// Control btnRefresh.
@@ -87,13 +87,22 @@ namespace CallCenter.Web.Incidents
         protected global::System.Web.UI.WebControls.Label lblChatMsg;
 
         /// <summary>
-        /// Control btnAnalysis.
+        /// Control rpFiles.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAnalysis;
+        protected global::System.Web.UI.WebControls.Repeater rpFiles;
+
+        /// <summary>
+        /// Control lblFilesInfo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFilesInfo;
 
         /// <summary>
         /// Control ddlAssign.

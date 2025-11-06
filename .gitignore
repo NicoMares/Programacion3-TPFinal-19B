@@ -1,0 +1,53 @@
+# Archivos y carpetas generados por Visual Studio y el compilador
+############################################################
+# La carpeta de configuración de usuario de Visual Studio
+.vs/
+# Archivos de caché
+*.suo
+*.user
+*.useros
+# Archivos de proyecto/solución temporales o de caché
+*.aps
+*.ncb
+*.pdb
+*.obj
+*.o
+*.lo
+*.la
+*.dll
+*.exe
+
+# Carpetas de salida de compilación
+[Bb]in/
+[Oo]bj/
+# Carpetas de paquetes NuGet
+[Pp]ackages/
+# Archivo de caché de NuGet (solo si no usas la carpeta 'packages/')
+project.assets.json
+
+# Archivos de transformación de configuración web
+*.config.install
+*.config.uninstall
+
+# Archivos de webforms específicos
+# Ciertos archivos de recursos compilados y temporales
+*.refresh
+App_Data/*.ldb
+App_Data/*.mdf
+App_Data/*.log
+
+# Archivos de prueba
+TestResults/
+
+# Archivos de despliegue de Visual Studio Web
+*.pubxml
+*.pfx
+*.vspscc
+*.vssscc
+*.bak
+*.vsderec
+
+# Instalación y configuraciones
+InstallShield/
+*.log
+Thumbs.db
