@@ -7,3 +7,12 @@ C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\C
 C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCent.0FD87F5D.Up2Date
 C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCenter.Business.dll
 C:\Users\aledesma\source\repos\call center final\CallCenter.Business\obj\Debug\CallCenter.Business.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\bin\Debug\CallCenter.Business.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\bin\Debug\CallCenter.Business.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\bin\Debug\CallCenter.Domain.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\bin\Debug\CallCenter.Domain.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\obj\Debug\CallCenter.Business.csproj.AssemblyReference.cache
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\obj\Debug\CallCenter.Business.csproj.CoreCompileInputs.cache
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\obj\Debug\CallCent.0FD87F5D.Up2Date
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\obj\Debug\CallCenter.Business.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Business\obj\Debug\CallCenter.Business.pdb

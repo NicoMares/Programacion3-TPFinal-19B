@@ -4,3 +4,9 @@ C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\Cal
 C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.CoreCompileInputs.cache
 C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\CallCenter.Domain.dll
 C:\Users\aledesma\source\repos\call center final\CallCenter.Domain\obj\Debug\CallCenter.Domain.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\bin\Debug\CallCenter.Domain.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\bin\Debug\CallCenter.Domain.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.AssemblyReference.cache
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.CoreCompileInputs.cache
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.pdb

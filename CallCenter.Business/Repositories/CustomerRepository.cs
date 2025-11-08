@@ -15,7 +15,7 @@ namespace CallCenter.Business.Repositories
             _cs = cs ?? ConfigurationManager.ConnectionStrings["CallCenterDb"].ConnectionString;
         }
 
-        public bool ExistsByDocumentOrEmail(string document, string email)
+        public bool ExistsByDocumentPhoneOrEmail(string document, string email, string phone)
         {
             using (SqlConnection cn = new SqlConnection(_cs))
             {
@@ -26,10 +26,16 @@ WHERE (Document = @Doc OR Email = @Email) AND IsDeleted = 0;", cn))
                 {
                     cmd.Parameters.Add("@Doc", SqlDbType.NVarChar, 50).Value = document;
                     cmd.Parameters.Add("@Email", SqlDbType.NVarChar, 256).Value = email;
+                    cmd.Parameters.Add("@Phone", SqlDbType.NVarChar, 256).Value = phone;
                     object o = cmd.ExecuteScalar();
                     return o != null;
                 }
             }
+        }
+
+        public bool ExistsByDocumentPhoneOrEmail(string document, string email)
+        {
+            throw new NotImplementedException();
         }
 
         public int Insert(Customer c)

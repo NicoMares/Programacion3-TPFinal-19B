@@ -12,3 +12,17 @@ C:\Users\aledesma\source\repos\call center final\CallCenter.Web\bin\es\System.We
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCent.7CB02D86.Up2Date
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.dll
 C:\Users\aledesma\source\repos\call center final\CallCenter.Web\obj\CallCenter.Web.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\CallCenter.Web.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\CallCenter.Web.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\CallCenter.Business.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\CallCenter.Domain.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\System.Web.WebPages.Deployment.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\CallCenter.Business.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\CallCenter.Domain.pdb
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\System.Web.WebPages.Deployment.xml
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\obj\CallCenter.Web.csproj.AssemblyReference.cache
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\obj\CallCenter.Web.csproj.CoreCompileInputs.cache
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\obj\CallCent.7CB02D86.Up2Date
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\obj\CallCenter.Web.dll
+F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Web\obj\CallCenter.Web.pdb
