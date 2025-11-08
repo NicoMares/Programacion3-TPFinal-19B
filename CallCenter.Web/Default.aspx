@@ -41,7 +41,7 @@
         <div class="col-12 col-md-6 col-lg-4">
           <div class="card shadow-sm h-100">
             <div class="card-body">
-              <h5 class="card-title">Incidencias</h5>
+              <h5 class="card-title">Listado Incidencias</h5>
               <p class="card-text text-muted">Listado completo de incidencias.</p>
               <asp:HyperLink ID="hlListInc" runat="server" NavigateUrl="~/Incidents/List.aspx" CssClass="btn btn-outline-primary">
                 Ver incidencias
@@ -49,6 +49,37 @@
             </div>
           </div>
         </div>
+
+        <!-- Card:Incidencias para  Supervisor -->
+        <div class="col-12 col-md-6 col-lg-4">
+  <div class="card shadow-sm h-100">
+    <div class="card-body">
+      <h5 class="card-title">Supervisor Incidencias</h5>
+      <p class="card-text text-muted">Listado completo de todas las incidencias de la Red.</p>
+      <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Incidents/List.aspx" CssClass="btn btn-outline-primary">
+        Ver incidencias
+      </asp:HyperLink>
+    </div>
+  </div>
+</div>
+
+        <!-- Card: Crear Usuario Para Admin -->
+  <div class="col-12 col-md-6 col-lg-4">
+  <div class="card shadow-sm h-100">
+    <div class="card-body">
+      <h5 class="card-title">Crear Usuario</h5>
+      <p class="card-text text-muted">Dar de alta un nuevo Usuario de La Red.</p>
+      <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Customers/Create.aspx" CssClass="btn btn-success">
+        Crear usuario
+      </asp:HyperLink>
+    </div>
+  </div>
+</div>
+
+
+
+
+
                 <!-- Card: Crear Cliente -->
         <div class="col-12 col-md-6 col-lg-4">
           <div class="card shadow-sm h-100">
@@ -61,6 +92,7 @@
             </div>
           </div>
         </div>
+
         <!-- Card: Ver Clientes -->
         <div class="col-12 col-md-6 col-lg-4">
           <div class="card shadow-sm h-100">
@@ -81,5 +113,6 @@
 </form>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 
 </html>
