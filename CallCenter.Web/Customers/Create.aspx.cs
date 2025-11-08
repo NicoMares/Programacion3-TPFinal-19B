@@ -48,7 +48,7 @@ namespace CallCenter.Web.Customers
                 return;
             }
 
-            if (!System.Text.RegularExpressions.Regex.IsMatch(phone, @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phone, @"^\d+$") || (doc.StartsWith("-")))
             {
                 lblMsg.CssClass = "alert alert-danger";
                 lblMsg.Text = "El Numero de Telefono no es válido o contiene caracteres  lo cual no esta permitidos.";
