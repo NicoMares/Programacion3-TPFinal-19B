@@ -60,7 +60,6 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\Forgot.aspx" />
     <Content Include="Account\Reset.aspx" />
-    <Content Include="Account\RoleAssign.aspx" />
     <Content Include="Customers\Create.aspx" />
     <Content Include="Customers\List.aspx" />
     <Content Include="Incidents\Create.aspx" />
@@ -73,7 +72,6 @@
     <Content Include="Account\Login.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account\AssignRoleService.cs" />
     <Compile Include="Account\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -94,10 +92,6 @@
     </Compile>
     <Compile Include="Account\Reset.aspx.designer.cs">
       <DependentUpon>Reset.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Account\RoleAssign.aspx.cs">
-      <DependentUpon>RoleAssign.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Customers\Create.aspx.cs">
       <DependentUpon>Create.aspx</DependentUpon>
