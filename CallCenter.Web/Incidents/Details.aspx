@@ -108,26 +108,30 @@
                       OnClick="btnAssign_Click" UseSubmitBehavior="true" Visible="false" />
 
           <!-- Resolver -->
-          <button type="button" class="btn btn-outline-success w-100 mb-2" onclick="toggleBox('resolveBox')">
-            Resolver
-          </button>
-          <div id="resolveBox" class="collapse mt-2">
-            <asp:TextBox ID="txtResolution" runat="server" CssClass="form-control mb-2"
-                         TextMode="MultiLine" Rows="3" placeholder="Describa la resolución..."></asp:TextBox>
-            <asp:Button ID="btnResolve" runat="server" Text="Confirmar resolución"
-                        CssClass="btn btn-success w-100" OnClick="btnResolve_Click" />
-          </div>
+                      <button id="btnToggleResolve" runat="server" type="button"
+                    class="btn btn-outline-success w-100 mb-2"
+                    onclick="toggleBox('resolveBox')">
+              Resolver
+            </button>
+            <div id="resolveBox" class="collapse mt-2">
+              <asp:TextBox ID="txtResolution" runat="server" CssClass="form-control mb-2"
+                           TextMode="MultiLine" Rows="3" placeholder="Describa la resolución..."></asp:TextBox>
+              <asp:Button ID="btnResolve" runat="server" Text="Confirmar resolución"
+                          CssClass="btn btn-success w-100" OnClick="btnResolve_Click" />
+            </div>
 
           <!-- Cerrar -->
-          <button type="button" class="btn btn-outline-danger w-100 mb-2" onclick="toggleBox('closeBox')">
-            Cerrar incidencia
-          </button>
-          <div id="closeBox" class="collapse mt-2">
-            <asp:TextBox ID="txtClose" runat="server" CssClass="form-control mb-2"
-                         TextMode="MultiLine" Rows="3" placeholder="Comentario final de cierre..."></asp:TextBox>
-            <asp:Button ID="btnClose" runat="server" Text="Confirmar cierre"
-                        CssClass="btn btn-danger w-100" OnClick="btnClose_Click" />
-          </div>
+                      <button id="btnToggleClose" runat="server" type="button"
+                    class="btn btn-outline-danger w-100 mb-2"
+                    onclick="toggleBox('closeBox')">
+              Cerrar incidencia
+            </button>
+            <div id="closeBox" class="collapse mt-2">
+              <asp:TextBox ID="txtClose" runat="server" CssClass="form-control mb-2"
+                           TextMode="MultiLine" Rows="3" placeholder="Comentario final de cierre..."></asp:TextBox>
+              <asp:Button ID="btnClose" runat="server" Text="Confirmar cierre"
+                          CssClass="btn btn-danger w-100" OnClick="btnClose_Click" />
+            </div>
 
           <asp:Label ID="lblActionsMsg" runat="server" CssClass="d-block mt-3"></asp:Label>
         </div>

@@ -113,6 +113,7 @@
     <Compile Include="Customers\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppUiHelpers.cs" />
     <Compile Include="Incidents\Create.aspx.cs">
       <DependentUpon>Create.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

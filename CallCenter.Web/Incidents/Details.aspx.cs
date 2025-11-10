@@ -1,8 +1,11 @@
-﻿// Incidents/Details.aspx.cs
+﻿using CallCenter.Business.Services;
+using CallCenter.Web.Infrastructure;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
+using CallCenter.Web.Helpers;
+
 
 namespace CallCenter.Web.Incidents
 {
@@ -13,6 +16,8 @@ namespace CallCenter.Web.Incidents
         private Guid _userId = Guid.Empty;
         private string _username = "";
         private string _role = "";
+        private readonly IEmailSender _mailer = new SmtpEmailSender();
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -112,28 +117,37 @@ namespace CallCenter.Web.Incidents
             WHERE i.Id = @id;", cn))
                 {
                     cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+
                     using (SqlDataReader rd = cmd.ExecuteReader())
                     {
                         if (rd.Read())
                         {
                             string asignado = rd["AsignadoA"] == DBNull.Value ? "(Sin asignar)" : rd["AsignadoA"].ToString();
+                            string estado = Convert.ToString(rd["Status"]);
+
                             lblHeaderInfo.Text = $@"
                         <div class='row g-2'>
                             <div class='col-md-6'><strong>ID:</strong> {rd["Id"]}</div>
-                            <div class='col-md-6'><strong>Estado:</strong> {rd["Status"]}</div>
                             <div class='col-md-6'><strong>Cliente:</strong> {HttpUtility.HtmlEncode(rd["Cliente"].ToString())}</div>
-                            <div class='col-md-6'><strong>Asignado a:</strong> {HttpUtility.HtmlEncode(asignado)}</div>
                             <div class='col-md-6'><strong>Tipo:</strong> {HttpUtility.HtmlEncode(rd["Tipo"].ToString())}</div>
                             <div class='col-md-6'><strong>Prioridad:</strong> {HttpUtility.HtmlEncode(rd["Prioridad"].ToString())}</div>
-                            <div class='col-12'><strong>Problemática:</strong><br/>{HttpUtility.HtmlEncode(rd["Problem"].ToString())}</div>
+                            <div class='col-md-6'><strong>Asignado a:</strong> {HttpUtility.HtmlEncode(asignado)}</div>
+                            <div class='col-md-6'><strong>Estado:</strong> {HttpUtility.HtmlEncode(estado)}</div>
+                            <div class='col-12'><strong>Problema:</strong><br>{HttpUtility.HtmlEncode(rd["Problem"].ToString())}</div>
                             <div class='col-12'><strong>Fecha:</strong> {Convert.ToDateTime(rd["CreatedAt"]).ToLocalTime():dd/MM/yyyy HH:mm}</div>
                         </div>";
+
+                            AppUiHelpers.LockActionsByStatus(
+                                estado,
+                                btnResolve, btnClose, btnAssign, ddlAssign,
+                                btnToggleResolve, btnToggleClose
+       
+                            );
                         }
                         else
                         {
                             lblHeaderInfo.CssClass = "alert alert-danger";
-                            lblHeaderInfo.Text = "Incidencia no válida.";
-
+                            lblHeaderInfo.Text = "Incidencia no encontrada.";
                             DisableChat();
                             DisableActions();
                         }
@@ -484,121 +498,191 @@ WHERE Id=@id;", cn, tx))
 
         protected void btnResolve_Click(object sender, EventArgs e)
         {
-            if (IsFinalStatus())
-            {
-                lblActionsMsg.CssClass = "text-warning";
-                lblActionsMsg.Text = "La incidencia está finalizada. No se puede resolver nuevamente.";
-                return;
-            }
-
             Page.Validate("resolve");
             if (!Page.IsValid) return;
 
             string note = txtResolution.Text == null ? "" : txtResolution.Text.Trim();
 
+            bool resuelto = false;
+
             using (SqlConnection cn = new SqlConnection(_cs))
             {
                 cn.Open();
-                using (SqlTransaction tx = cn.BeginTransaction())
-                {
-                    try
-                    {
-                        using (SqlCommand cmd = new SqlCommand(@"
+                using (SqlCommand cmd = new SqlCommand(@"
 UPDATE dbo.Incidents
 SET Status=N'Resuelto', ResolvedAt=SYSUTCDATETIME(), ResolutionNote=@n
-WHERE Id=@id;", cn, tx))
-                        {
-                            cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                            cmd.Parameters.Add("@n", SqlDbType.NVarChar, 1000).Value = (object)note ?? DBNull.Value;
-                            int n = cmd.ExecuteNonQuery();
-                            if (n == 0) throw new Exception("Incidencia inexistente.");
-                        }
-
-                        using (SqlCommand m = new SqlCommand(@"
-INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
-VALUES(@iid, @uid, @sn, @msg);", cn, tx))
-                        {
-                            m.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                            m.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
-                            m.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username;
-                            m.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value =
-                                "Incidencia RESUELTA. Nota: " + note;
-                            m.ExecuteNonQuery();
-                        }
-
-                        tx.Commit();
-                    }
-                    catch
-                    {
-                        tx.Rollback();
-                        lblActionsMsg.CssClass = "text-danger";
-                        lblActionsMsg.Text = "No se pudo resolver la incidencia.";
-                        return;
-                    }
+WHERE Id=@id;", cn))
+                {
+                    cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                    cmd.Parameters.Add("@n", SqlDbType.NVarChar, 1000).Value = (object)note ?? DBNull.Value;
+                    int n = cmd.ExecuteNonQuery();
+                    resuelto = n > 0;
                 }
             }
 
-            Response.Redirect("Details.aspx?id=" + _incidentId.ToString() + "&resolved=1");
-        }
-
-        protected void btnClose_Click(object sender, EventArgs e)
-        {
-            if (IsFinalStatus())
+            if (!resuelto)
             {
-                lblActionsMsg.CssClass = "text-warning";
-                lblActionsMsg.Text = "La incidencia ya está finalizada. No se puede cerrar nuevamente.";
+                lblActionsMsg.CssClass = "text-danger";
+                lblActionsMsg.Text = "No se pudo resolver la incidencia.";
                 return;
             }
 
+            // 1️⃣ Insertar nota al chat
+            InsertSystemNote("Incidencia RESUELTA. Nota: " + note);
+
+            lblActionsMsg.CssClass = "text-success";
+            lblActionsMsg.Text = "Incidencia marcada como Resuelta.";
+            LoadIncidentHeader();
+            BindMessages();
+
+            // 2️⃣ Obtener email y datos del cliente
+            try
+            {
+                string custEmail = null, custName = null, tipo = null, prioridad = null;
+                using (SqlConnection cn = new SqlConnection(_cs))
+                {
+                    cn.Open();
+                    using (SqlCommand c = new SqlCommand(@"
+SELECT TOP 1 cu.Email, cu.Name,
+       it.Name AS Tipo, pr.Name AS Prioridad
+FROM dbo.Incidents i
+JOIN dbo.Customers cu ON cu.Id = i.CustomerId
+JOIN dbo.IncidentTypes it ON it.Id = i.IncidentTypeId
+JOIN dbo.Priorities pr ON pr.Id = i.PriorityId
+WHERE i.Id = @id;", cn))
+                    {
+                        c.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                        using (var rd = c.ExecuteReader())
+                        {
+                            if (rd.Read())
+                            {
+                                custEmail = Convert.ToString(rd["Email"]);
+                                custName = Convert.ToString(rd["Name"]);
+                                tipo = Convert.ToString(rd["Tipo"]);
+                                prioridad = Convert.ToString(rd["Prioridad"]);
+                            }
+                        }
+                    }
+                }
+
+                // 3️⃣ Enviar mail si hay email válido
+                if (!string.IsNullOrWhiteSpace(custEmail))
+                {
+                    string asunto = $"[Call Center] Incidencia resuelta #{_incidentId.ToString().Substring(0, 8)}";
+                    string html = BuildIncidentResolvedEmail(
+                        custName ?? "",
+                        _incidentId,
+                        tipo ?? "",
+                        prioridad ?? "",
+                        note ?? ""
+                    );
+                    _mailer.Send(custEmail, asunto, html);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("MAIL RESUELTO ERROR: " + ex.Message);
+                // no interrumpe el flujo
+            }
+
+            // 4️⃣ Refrescar vista
+            Response.Redirect("Details.aspx?id=" + _incidentId.ToString(), endResponse: true);
+        }
+
+
+        protected void btnClose_Click(object sender, EventArgs e)
+        {
             Page.Validate("close");
             if (!Page.IsValid) return;
 
             string comment = txtClose.Text == null ? "" : txtClose.Text.Trim();
 
+            // 1) Cerrar en DB
+            bool cerrado = false;
             using (SqlConnection cn = new SqlConnection(_cs))
             {
                 cn.Open();
-                using (SqlTransaction tx = cn.BeginTransaction())
-                {
-                    try
-                    {
-                        using (SqlCommand cmd = new SqlCommand(@"
+                using (SqlCommand cmd = new SqlCommand(@"
 UPDATE dbo.Incidents
 SET Status=N'Cerrado', ClosedComment=@c
-WHERE Id=@id;", cn, tx))
-                        {
-                            cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                            cmd.Parameters.Add("@c", SqlDbType.NVarChar, 1000).Value = comment;
-                            int n = cmd.ExecuteNonQuery();
-                            if (n == 0) throw new Exception("Incidencia inexistente.");
-                        }
-
-                        using (SqlCommand m = new SqlCommand(@"
-INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
-VALUES(@iid, @uid, @sn, @msg);", cn, tx))
-                        {
-                            m.Parameters.Add("@iid", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                            m.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
-                            m.Parameters.Add("@sn", SqlDbType.NVarChar, 200).Value = _username;
-                            m.Parameters.Add("@msg", SqlDbType.NVarChar, 2000).Value =
-                                "Incidencia CERRADA. Comentario: " + comment;
-                            m.ExecuteNonQuery();
-                        }
-
-                        tx.Commit();
-                    }
-                    catch
-                    {
-                        tx.Rollback();
-                        lblActionsMsg.CssClass = "text-danger";
-                        lblActionsMsg.Text = "No se pudo cerrar la incidencia.";
-                        return;
-                    }
+WHERE Id=@id;", cn))
+                {
+                    cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                    cmd.Parameters.Add("@c", SqlDbType.NVarChar, 1000).Value = comment;
+                    int n = cmd.ExecuteNonQuery();
+                    cerrado = n > 0;
                 }
             }
 
-            Response.Redirect("Details.aspx?id=" + _incidentId.ToString() + "&closed=1");
+            if (!cerrado)
+            {
+                lblActionsMsg.CssClass = "text-danger";
+                lblActionsMsg.Text = "No se pudo cerrar la incidencia.";
+                return;
+            }
+
+            // 2) Nota al chat
+            InsertSystemNote("Incidencia CERRADA. Comentario: " + comment);
+
+            lblActionsMsg.CssClass = "text-success";
+            lblActionsMsg.Text = "Incidencia cerrada correctamente.";
+            LoadIncidentHeader();
+            BindMessages();
+
+            // 3) Obtener datos del cliente (email y nombre) y enviar correo
+            try
+            {
+                string custEmail = null, custName = null, tipo = null, prioridad = null;
+                using (SqlConnection cn = new SqlConnection(_cs))
+                {
+                    cn.Open();
+                    using (SqlCommand c = new SqlCommand(@"
+SELECT TOP 1 cu.Email, cu.Name,
+       it.Name AS Tipo, pr.Name AS Prioridad
+FROM dbo.Incidents i
+JOIN dbo.Customers cu ON cu.Id = i.CustomerId
+JOIN dbo.IncidentTypes it ON it.Id = i.IncidentTypeId
+JOIN dbo.Priorities pr ON pr.Id = i.PriorityId
+WHERE i.Id = @id;", cn))
+                    {
+                        c.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+                        using (var rd = c.ExecuteReader())
+                        {
+                            if (rd.Read())
+                            {
+                                custEmail = Convert.ToString(rd["Email"]);
+                                custName = Convert.ToString(rd["Name"]);
+                                tipo = Convert.ToString(rd["Tipo"]);
+                                prioridad = Convert.ToString(rd["Prioridad"]);
+                            }
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(custEmail))
+                {
+                    string asunto = $"[Call Center] Incidencia cerrada #{_incidentId.ToString().Substring(0, 8)}";
+                    string html = BuildIncidentClosedEmail(
+                        custName ?? "",
+                        _incidentId,
+                        tipo ?? "",
+                        prioridad ?? "",
+                        comment ?? ""
+                    );
+                    _mailer.Send(custEmail, asunto, html);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("MAIL CLOSE ERROR: " + ex.Message);
+                // no interrumpe el flujo
+            }
+
+            // 4) Refrescar la pantalla
+            Response.Redirect("Details.aspx?id=" + _incidentId.ToString(), endResponse: true);
         }
+
+
 
         private void BindAttachments()
         {
@@ -667,6 +751,74 @@ VALUES(@iid, @uid, @sn, @msg);", cn, tx))
         }
 
 
+
+
+        private string BuildIncidentClosedEmail(string customerName, Guid incidentId, string tipo, string prioridad, string closeComment)
+        {
+            string idCorto = incidentId.ToString().Substring(0, 8);
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            return $@"
+<!doctype html>
+<html>
+  <body style='font-family:Segoe UI,Arial,sans-serif;background:#f6f8fa;padding:24px;color:#111;'>
+    <table width='100%' cellpadding='0' cellspacing='0' style='max-width:640px;margin:auto;background:#fff;border:1px solid #e9ecef;border-radius:8px'>
+      <tr><td style='padding:20px 24px'>
+        <h2 style='margin:0 0 8px 0;color:#dc3545'>Incidencia cerrada</h2>
+        <p style='margin:0;color:#555'>Hola {System.Web.HttpUtility.HtmlEncode(customerName)}, tu reclamo fue <strong>cerrado</strong>.</p>
+        <hr style='border:none;border-top:1px solid #eee;margin:16px 0' />
+        <p style='margin:0'><strong>N°:</strong> {idCorto}</p>
+        <p style='margin:0'><strong>Fecha:</strong> {fecha}</p>
+        <p style='margin:0'><strong>Estado:</strong> Cerrado</p>
+        <p style='margin:0'><strong>Tipo:</strong> {System.Web.HttpUtility.HtmlEncode(tipo)}</p>
+        <p style='margin:0 0 12px 0'><strong>Prioridad:</strong> {System.Web.HttpUtility.HtmlEncode(prioridad)}</p>
+        <div style='background:#f8f9fa;border:1px solid #eee;border-radius:6px;padding:12px'>
+          <strong>Comentario de cierre:</strong>
+          <div>{System.Web.HttpUtility.HtmlEncode(closeComment).Replace("\n", "<br/>")}</div>
+        </div>
+        <p style='margin:16px 0 0 0;color:#555;font-size:13px'>
+          Si necesitás volver a abrir el caso, por favor respondé este correo o contactá a nuestro soporte.
+        </p>
+        <p style='margin:0;color:#999;font-size:12px'>Este correo fue generado automáticamente. No responda a este mensaje.</p>
+      </td></tr>
+    </table>
+  </body>
+</html>";
+        }
+
+    
+        
+
+    private string BuildIncidentResolvedEmail(string customerName, Guid incidentId, string tipo, string prioridad, string resolutionNote)
+        {
+            string idCorto = incidentId.ToString().Substring(0, 8);
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            return $@"
+<!doctype html>
+<html>
+  <body style='font-family:Segoe UI,Arial,sans-serif;background:#f6f8fa;padding:24px;color:#111;'>
+    <table width='100%' cellpadding='0' cellspacing='0' style='max-width:640px;margin:auto;background:#fff;border:1px solid #e9ecef;border-radius:8px'>
+      <tr><td style='padding:20px 24px'>
+        <h2 style='margin:0 0 8px 0;color:#198754'>Incidencia resuelta</h2>
+        <p style='margin:0;color:#555'>Hola {System.Web.HttpUtility.HtmlEncode(customerName)}, tu reclamo fue <strong>resuelto</strong>.</p>
+        <hr style='border:none;border-top:1px solid #eee;margin:16px 0' />
+        <p style='margin:0'><strong>N°:</strong> {idCorto}</p>
+        <p style='margin:0'><strong>Fecha:</strong> {fecha}</p>
+        <p style='margin:0'><strong>Estado:</strong> Resuelto</p>
+        <p style='margin:0'><strong>Tipo:</strong> {System.Web.HttpUtility.HtmlEncode(tipo)}</p>
+        <p style='margin:0 0 12px 0'><strong>Prioridad:</strong> {System.Web.HttpUtility.HtmlEncode(prioridad)}</p>
+        <div style='background:#f8f9fa;border:1px solid #eee;border-radius:6px;padding:12px'>
+          <strong>Detalle de resolución:</strong>
+          <div>{System.Web.HttpUtility.HtmlEncode(resolutionNote).Replace("\n", "<br/>")}</div>
+        </div>
+        <p style='margin:16px 0 0 0;color:#555;font-size:13px'>
+          Si tu problema persiste, podés responder este correo o comunicarte nuevamente con soporte.
+        </p>
+        <p style='margin:0;color:#999;font-size:12px'>Este correo fue generado automáticamente. No respondas a este mensaje.</p>
+      </td></tr>
+    </table>
+  </body>
+</html>";
+        }
 
     }
 }

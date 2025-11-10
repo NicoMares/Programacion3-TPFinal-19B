@@ -123,6 +123,15 @@ namespace CallCenter.Web.Incidents
         protected global::System.Web.UI.WebControls.Button btnAssign;
 
         /// <summary>
+        /// Control btnToggleResolve.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnToggleResolve;
+
+        /// <summary>
         /// Control txtResolution.
         /// </summary>
         /// <remarks>
@@ -139,6 +148,15 @@ namespace CallCenter.Web.Incidents
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnResolve;
+
+        /// <summary>
+        /// Control btnToggleClose.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnToggleClose;
 
         /// <summary>
         /// Control txtClose.
