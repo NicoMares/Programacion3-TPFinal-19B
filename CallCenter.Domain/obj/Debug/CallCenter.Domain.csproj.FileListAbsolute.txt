@@ -10,3 +10,9 @@ F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Doma
 F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.CoreCompileInputs.cache
 F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.dll
 F:\Github\Facultad\Progra 3- Segundo Intento\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.pdb
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\CallCenter.Domain\bin\Debug\CallCenter.Domain.dll
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\CallCenter.Domain\bin\Debug\CallCenter.Domain.pdb
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.AssemblyReference.cache
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.csproj.CoreCompileInputs.cache
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.dll
+C:\Users\aledesma\source\repos\Progra3-TPFinal-19B\CallCenter.Domain\obj\Debug\CallCenter.Domain.pdb

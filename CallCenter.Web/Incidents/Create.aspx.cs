@@ -1,9 +1,10 @@
-﻿// Incidents/Create.aspx.cs
+﻿using CallCenter.Business.Services;
+using CallCenter.Web.Infrastructure;
 using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web;
 using System.IO;
+using System.Web;
 
 
 namespace CallCenter.Web.Incidents
@@ -14,6 +15,8 @@ namespace CallCenter.Web.Incidents
         private Guid _userId = Guid.Empty;
         private string _username = "";
         private string _role = "";
+        private readonly IEmailSender _mailer = new SmtpEmailSender(); 
+
         protected void Page_Load(object sender, EventArgs e)
         {
             System.Web.UI.ValidationSettings.UnobtrusiveValidationMode =
@@ -24,7 +27,7 @@ namespace CallCenter.Web.Incidents
             if (!IsPostBack)
             {
                 LoadUser();
-                BindLookups(); // llena ddl de cliente, tipo, prioridad (si ya lo tenías)
+                BindLookups(); 
             }
         }
         private void LoadUser()
@@ -99,20 +102,35 @@ namespace CallCenter.Web.Incidents
                 }
             }
         }
-
         protected void btnCreate_Click(object sender, EventArgs e)
         {
-            // Validaciones mínimas
             if (ddlCustomer.SelectedValue == "" || ddlType.SelectedValue == "" || ddlPriority.SelectedValue == "")
             {
                 lblInfo.CssClass = "text-danger";
                 lblInfo.Text = "Seleccioná cliente, tipo y prioridad.";
                 return;
             }
-
-            // Asegurá usuario cargado
             if (_userId == Guid.Empty || string.IsNullOrEmpty(_username))
                 LoadUser();
+
+            int customerId = int.Parse(ddlCustomer.SelectedValue); 
+            string custEmail = null, custName = null;
+            using (var cn0 = new SqlConnection(_cs))
+            {
+                cn0.Open();
+                using (var c0 = new SqlCommand("SELECT TOP 1 Email, Name FROM dbo.Customers WHERE Id=@id;", cn0))
+                {
+                    c0.Parameters.Add("@id", SqlDbType.Int).Value = customerId;
+                    using (var rd = c0.ExecuteReader())
+                    {
+                        if (rd.Read())
+                        {
+                            custEmail = Convert.ToString(rd["Email"]);
+                            custName = Convert.ToString(rd["Name"]);
+                        }
+                    }
+                }
+            }
 
             Guid incidentId = Guid.Empty;
 
@@ -123,7 +141,6 @@ namespace CallCenter.Web.Incidents
                 {
                     try
                     {
-                        // INSERT con CreatedByUserId y AssignedToUserId = creador
                         using (var cmd = new SqlCommand(@"
 INSERT INTO dbo.Incidents
 ( Id, CustomerId, IncidentTypeId, PriorityId, Problem, Status, CreatedAt, CreatedByUserId, AssignedToUserId )
@@ -131,10 +148,7 @@ OUTPUT INSERTED.Id
 VALUES
 ( NEWID(), @c, @t, @p, @pr, N'Abierto', SYSUTCDATETIME(), @uid, @uid );", cn, tx))
                         {
-                            // si CustomerId es GUID:
-                            cmd.Parameters.Add("@c", SqlDbType.Int).Value = int.Parse(ddlCustomer.SelectedValue);
-                            // si fuera INT, usar: cmd.Parameters.Add("@c", SqlDbType.Int).Value = int.Parse(ddlCustomer.SelectedValue);
-
+                            cmd.Parameters.Add("@c", SqlDbType.Int).Value = customerId; // INT
                             cmd.Parameters.Add("@t", SqlDbType.Int).Value = int.Parse(ddlType.SelectedValue);
                             cmd.Parameters.Add("@p", SqlDbType.Int).Value = int.Parse(ddlPriority.SelectedValue);
                             cmd.Parameters.Add("@pr", SqlDbType.NVarChar, 1000).Value = (object)(txtProblem.Text ?? "").Trim();
@@ -143,7 +157,6 @@ VALUES
                             incidentId = (Guid)cmd.ExecuteScalar();
                         }
 
-                        // Nota de sistema
                         using (var m = new SqlCommand(@"
 INSERT INTO dbo.IncidentMessages(IncidentId, UserId, SenderName, Message)
 VALUES(@iid, @uid, @sn, @msg);", cn, tx))
@@ -155,7 +168,6 @@ VALUES(@iid, @uid, @sn, @msg);", cn, tx))
                             m.ExecuteNonQuery();
                         }
 
-                        // Adjuntos (si usás el FileUpload fuFiles)
                         SaveAttachments(incidentId, cn, tx);
 
                         tx.Commit();
@@ -170,16 +182,31 @@ VALUES(@iid, @uid, @sn, @msg);", cn, tx))
                 }
             }
 
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(custEmail))
+                {
+                    string asunto = $"[Call Center] Incidencia creada #{incidentId.ToString().Substring(0, 8)}";
+                    string html = BuildIncidentCreatedEmail(custName, incidentId, ddlType.SelectedItem.Text,
+                                                            ddlPriority.SelectedItem.Text, (txtProblem.Text ?? "").Trim());
+
+                    _mailer.Send(custEmail, asunto, html);
+                }
+            }
+            catch (Exception mailEx)
+            {
+                System.Diagnostics.Debug.WriteLine("MAIL ERROR: " + mailEx.Message);
+            }
+
             Response.Redirect("Details.aspx?id=" + incidentId.ToString(), endResponse: true);
         }
 
+
         private void SaveAttachments(Guid incidentId, SqlConnection cn, SqlTransaction tx)
         {
-            // sin archivos? salir
             if (fuFiles == null || !fuFiles.HasFiles) return;
 
-            // carpeta física donde guardamos
-            // recomendación: ~/App_Data/Uploads  (no servida directamente)
+           
             string baseDir = Server.MapPath("~/App_Data/Uploads");
             if (!Directory.Exists(baseDir))
                 Directory.CreateDirectory(baseDir);
@@ -190,8 +217,7 @@ VALUES(@iid, @uid, @sn, @msg);", cn, tx))
                 if (file == null) continue;
                 if (file.ContentLength <= 0) continue;
 
-                // (opcional) validar tamaño/extensiones
-                // if (file.ContentLength > 50 * 1024 * 1024) throw new Exception("Archivo excede 50MB");
+                
 
                 string originalName = Path.GetFileName(file.FileName);
                 string storedName = Guid.NewGuid().ToString("N") + Path.GetExtension(originalName);
@@ -215,7 +241,6 @@ VALUES(NEWID(), @iid, @fn, @sn, @ct, @sz, @uid);", cn, tx))
         }
 
 
-        // (Opcional) helper para email del cliente
         private string GetCustomerEmail(SqlConnection cn, int customerId)
         {
             using (SqlCommand cmd = new SqlCommand(
@@ -226,5 +251,36 @@ VALUES(NEWID(), @iid, @fn, @sn, @ct, @sz, @uid);", cn, tx))
                 return o == null ? "" : Convert.ToString(o);
             }
         }
+
+        private string BuildIncidentCreatedEmail(string customerName, Guid incidentId, string tipo, string prioridad, string problema)
+        {
+            string idCorto = incidentId.ToString().Substring(0, 8);
+            string fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+            return $@"
+<!doctype html>
+<html>
+  <body style='font-family:Segoe UI,Arial,sans-serif;background:#f6f8fa;padding:24px;color:#111;'>
+    <table width='100%' cellpadding='0' cellspacing='0' style='max-width:640px;margin:auto;background:#fff;border:1px solid #e9ecef;border-radius:8px'>
+      <tr><td style='padding:20px 24px'>
+        <h2 style='margin:0 0 8px 0;color:#0d6efd'>Incidencia creada</h2>
+        <p style='margin:0;color:#555'>Hola {System.Web.HttpUtility.HtmlEncode(customerName)}, registramos tu reclamo.</p>
+        <hr style='border:none;border-top:1px solid #eee;margin:16px 0' />
+        <p style='margin:0'><strong>N°:</strong> {idCorto}</p>
+        <p style='margin:0'><strong>Fecha:</strong> {fecha}</p>
+        <p style='margin:0'><strong>Estado inicial:</strong> Abierto</p>
+        <p style='margin:0'><strong>Tipo:</strong> {System.Web.HttpUtility.HtmlEncode(tipo)}</p>
+        <p style='margin:0 0 12px 0'><strong>Prioridad:</strong> {System.Web.HttpUtility.HtmlEncode(prioridad)}</p>
+        <div style='background:#f8f9fa;border:1px solid #eee;border-radius:6px;padding:12px'>
+          <strong>Detalle del problema:</strong>
+          <div>{System.Web.HttpUtility.HtmlEncode(problema).Replace("\n", "<br/>")}</div>
+        </div>
+        <p style='margin:16px 0 0 0;color:#555;font-size:13px'>Te mantendremos informado ante cualquier actualización.</p>
+        <p style='margin:0;color:#999;font-size:12px'>Este correo fue generado automáticamente. No responda a este mensaje.</p>
+      </td></tr>
+    </table>
+  </body>
+</html>";
+        }
     }
 }
+
