@@ -32,26 +32,42 @@ namespace CallCenter.Web.Customers
             string phone = txtPhone.Text == null ? "" : txtPhone.Text.Trim();
             string addr = txtAddress.Text == null ? "" : txtAddress.Text.Trim();
 
+            // Validación de nombre: Solo letras y espacios
+            if (!System.Text.RegularExpressions.Regex.IsMatch(name, @"^[A-Za-z ]+$"))
+            {
+                lblMsg.CssClass = "alert alert-danger";
+                lblMsg.Text = "⚠️ El Nombre No es Válido.";
+                return;
+            }
+
+            // Validación de domicilio: Solo letras, números y espacios
+            if (!System.Text.RegularExpressions.Regex.IsMatch(addr, @"^[A-Za-z0-9 ]+$"))
+            {
+                lblMsg.CssClass = "alert alert-danger";
+                lblMsg.Text = "⚠️ La Dirección No es Válida.";
+                return;
+            }
+
             // Validación de documento: solo dígitos, no se pueden negativos, ni caracteres especiales
             if (!System.Text.RegularExpressions.Regex.IsMatch(doc, @"^\d+$") || (doc.StartsWith("-")))
             {
                 lblMsg.CssClass = "alert alert-danger";
-                lblMsg.Text = "El documento debe ser un número positivo y no puede contener caracteres .";
+                lblMsg.Text = "⚠️ El documento No es Válido .";
                 return;
             }
 
             // Validación de email: sin caracteres especiales que no estan permitidos
-            if (!System.Text.RegularExpressions.Regex.IsMatch(email, @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(email, @"^[A-Za-z0-9][A-Za-z0-9.]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"))
             {
                 lblMsg.CssClass = "alert alert-danger";
-                lblMsg.Text = "El email no es válido o contiene caracteres especiales lo cual no estan permitidos.";
+                lblMsg.Text = "⚠️ El email no es válido.";
                 return;
             }
 
             if (!System.Text.RegularExpressions.Regex.IsMatch(phone, @"^\d+$") || (doc.StartsWith("-")))
             {
                 lblMsg.CssClass = "alert alert-danger";
-                lblMsg.Text = "El Numero de Telefono no es válido o contiene caracteres  lo cual no esta permitidos.";
+                lblMsg.Text = "⚠️ El Numero de Telefono no es válido .";
                 return;
             }
 
@@ -60,7 +76,7 @@ namespace CallCenter.Web.Customers
             if (_repo.ExistsByDocumentPhoneOrEmail(doc, email,phone))
             {
                 lblMsg.CssClass = "alert alert-danger";
-                lblMsg.Text = "Ya existe un cliente con ese documento , Numero de Telefono o email.";
+                lblMsg.Text = "⚠️ Ya existe un cliente con ese documento , Numero de Telefono o email.";
                 return;
             }
 
