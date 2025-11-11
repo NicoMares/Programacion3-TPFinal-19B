@@ -183,16 +183,13 @@ namespace CallCenter.Web.Incidents
 
         private void ApplyPermissions()
         {
-            // bloquear todo si es estado final
             if (IsFinalStatus())
             {
                 DisableActions();
                 return;
             }
 
-            // si no es final, aplicar permisos por rol
             bool canAssign =
-                string.Equals(_role, "Administrador", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(_role, "Supervisor", StringComparison.OrdinalIgnoreCase);
 
             ddlAssign.Visible = canAssign;
@@ -201,50 +198,28 @@ namespace CallCenter.Web.Incidents
 
         private void BindAssignableUsers()
         {
-            // si final, ni muestro
-            if (IsFinalStatus())
-            {
-                ddlAssign.Visible = false;
-                btnAssign.Visible = false;
-                return;
-            }
-
-            bool canAssign =
-                string.Equals(_role, "Administrador", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(_role, "Supervisor", StringComparison.OrdinalIgnoreCase);
+            bool canAssign = CallCenter.Web.Helpers.AppUiHelpers.CanReassign(_role);
 
             ddlAssign.Visible = canAssign;
             btnAssign.Visible = canAssign;
+
             if (!canAssign) return;
 
             ddlAssign.Items.Clear();
-
-            Guid currentAssigned = Guid.Empty;
-            if (ViewState["AssignedToUserId"] != null && ViewState["AssignedToUserId"] != DBNull.Value)
-                currentAssigned = (Guid)ViewState["AssignedToUserId"];
-
-            using (SqlConnection cn = new SqlConnection(_cs))
+            using (var cn = new SqlConnection(_cs))
             {
                 cn.Open();
-                using (SqlCommand cmd = new SqlCommand(
+                using (var cmd = new SqlCommand(
                     "SELECT Id, Username FROM dbo.Users WHERE IsDeleted=0 AND IsBlocked=0 ORDER BY Username;", cn))
-                using (SqlDataReader rd = cmd.ExecuteReader())
+                using (var rd = cmd.ExecuteReader())
                 {
                     while (rd.Read())
-                    {
-                        var text = rd.GetString(1);
-                        var val = rd.GetGuid(0).ToString();
-                        ddlAssign.Items.Add(new System.Web.UI.WebControls.ListItem(text, val));
-                    }
+                        ddlAssign.Items.Add(new System.Web.UI.WebControls.ListItem(
+                            rd.GetString(1), rd.GetGuid(0).ToString()));
                 }
             }
-
-            if (currentAssigned != Guid.Empty)
-            {
-                var li = ddlAssign.Items.FindByValue(currentAssigned.ToString());
-                if (li != null) ddlAssign.SelectedValue = currentAssigned.ToString();
-            }
         }
+
 
         // ===== Chat =====
         protected void BindMessages()
@@ -424,77 +399,49 @@ VALUES(@iid, @uid, @sn, @msg);", cn))
             lblActionsMsg.Text = "No se pudo actualizar el estado.";
         }
 
-        protected void btnAssign_Click(object sender, EventArgs e)
-        {
-            bool canAssign =
-                string.Equals(_role, "Administrador", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(_role, "Supervisor", StringComparison.OrdinalIgnoreCase);
-            if (!canAssign) return;
+            protected void btnAssign_Click(object sender, EventArgs e)
+{
+    if (!CallCenter.Web.Helpers.AppUiHelpers.CanReassign(_role))
+    {
+        lblActionsMsg.CssClass = "text-danger";
+        lblActionsMsg.Text = "No tenés permisos para reasignar.";
+        return;
+    }
 
-            if (!Guid.TryParse(ddlAssign.SelectedValue, out Guid newUid) || newUid == Guid.Empty)
+    if (!Guid.TryParse(ddlAssign.SelectedValue, out Guid newUid) || newUid == Guid.Empty)
+    {
+        lblActionsMsg.CssClass = "text-danger";
+        lblActionsMsg.Text = "Seleccione un usuario válido.";
+        return;
+    }
+
+    using (var cn = new SqlConnection(_cs))
+    {
+        cn.Open();
+        using (var cmd = new SqlCommand(@"
+UPDATE dbo.Incidents
+SET AssignedToUserId=@uid, Status=N'Asignado'
+WHERE Id=@id;", cn))
+        {
+            cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
+            cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = newUid;
+            int n = cmd.ExecuteNonQuery();
+            if (n > 0)
+            {
+                InsertSystemNote("Incidencia reasignada a " + ddlAssign.SelectedItem.Text + ".");
+                lblActionsMsg.CssClass = "text-success";
+                lblActionsMsg.Text = "Incidencia reasignada (estado: Asignado).";
+                LoadIncidentHeader();
+            }
+            else
             {
                 lblActionsMsg.CssClass = "text-danger";
-                lblActionsMsg.Text = "Seleccione un usuario válido.";
-                return;
-            }
-
-            using (SqlConnection cn = new SqlConnection(_cs))
-            {
-                cn.Open();
-                using (SqlTransaction tx = cn.BeginTransaction())
-                {
-                    try
-                    {
-                        // Evitar cambios si está Resuelto/Cerrado
-                        string statusActual = "";
-                        using (SqlCommand s = new SqlCommand(
-                            "SELECT Status FROM dbo.Incidents WHERE Id=@id;", cn, tx))
-                        {
-                            s.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                            object o = s.ExecuteScalar();
-                            statusActual = (o == null || o == DBNull.Value) ? "" : (string)o;
-                        }
-                        if (statusActual.Equals("Resuelto", StringComparison.OrdinalIgnoreCase) ||
-                            statusActual.Equals("Cerrado", StringComparison.OrdinalIgnoreCase))
-                        {
-                            lblActionsMsg.CssClass = "text-danger";
-                            lblActionsMsg.Text = "La incidencia está cerrada o resuelta. No se puede reasignar.";
-                            tx.Rollback();
-                            return;
-                        }
-
-                        // Reasignar y pasar a En Análisis
-                        using (SqlCommand cmd = new SqlCommand(@"
-UPDATE dbo.Incidents
-SET AssignedToUserId=@uid, Status=N'En Análisis'
-WHERE Id=@id;", cn, tx))
-                        {
-                            cmd.Parameters.Add("@id", SqlDbType.UniqueIdentifier).Value = _incidentId;
-                            cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = newUid;
-                            int n = cmd.ExecuteNonQuery();
-                            if (n <= 0) throw new Exception("No se pudo reasignar.");
-                        }
-
-                        // Notas al chat
-                        InsertSystemNoteTx(cn, tx, "Incidencia reasignada a " + ddlAssign.SelectedItem.Text + ".");
-                        InsertSystemNoteTx(cn, tx, "Estado cambiado a 'En Análisis' por reasignación.");
-
-                        tx.Commit();
-
-                        lblActionsMsg.CssClass = "text-success";
-                        lblActionsMsg.Text = "Incidencia reasignada (estado: En Análisis).";
-                        LoadIncidentHeader();
-                        BindMessages();
-                    }
-                    catch (Exception ex)
-                    {
-                        tx.Rollback();
-                        lblActionsMsg.CssClass = "text-danger";
-                        lblActionsMsg.Text = "No se pudo reasignar: " + ex.Message;
-                    }
-                }
+                lblActionsMsg.Text = "No se pudo reasignar.";
             }
         }
+    }
+    BindMessages();
+}
 
         protected void btnResolve_Click(object sender, EventArgs e)
         {

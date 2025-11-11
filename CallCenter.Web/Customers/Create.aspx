@@ -8,6 +8,16 @@
 </head>
 <body>
 <form id="form1" runat="server">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand fw-semibold text-white" 
+       href="~/Default.aspx" 
+       id="HyperLinkHome" 
+       runat="server">📞 Call Center</a>
+    
+  </div>
+</nav>v>
+</nav>
   <div class="container py-4" style="max-width:760px;">
     <h3 class="mb-3">Nuevo cliente</h3>
     <asp:ValidationSummary runat="server" CssClass="alert alert-danger py-2" ValidationGroup="c" />

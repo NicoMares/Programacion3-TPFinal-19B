@@ -9,13 +9,21 @@
 </head>
 <body>
 <form id="form1" runat="server">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand fw-semibold text-white" 
+       href="~/Default.aspx" 
+       id="HyperLinkHome" 
+       runat="server">📞 Call Center</a>
+    
+  </div>
+</nav>
   <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h3 class="mb-0">Incidencias</h3>
       <a runat="server" href="~/Default.aspx" class="btn btn-outline-secondary">Volver</a>
     </div>
 
-    <!-- Filtros -->
     <div class="card mb-3">
       <div class="card-body">
         <div class="row g-3">

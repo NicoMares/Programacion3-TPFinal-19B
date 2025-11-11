@@ -67,6 +67,8 @@
     <Content Include="Incidents\Details.aspx" />
     <Content Include="Incidents\Download.aspx" />
     <Content Include="Incidents\List.aspx" />
+    <Content Include="Users\Create.aspx" />
+    <Content Include="Users\List.aspx" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Content Include="Default.aspx" />
@@ -160,6 +162,20 @@
     </Compile>
     <Compile Include="Account\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Create.aspx.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\Create.aspx.designer.cs">
+      <DependentUpon>Create.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\List.aspx.cs">
+      <DependentUpon>List.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\List.aspx.designer.cs">
+      <DependentUpon>List.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

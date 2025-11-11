@@ -54,5 +54,12 @@ namespace CallCenter.Web.Helpers
                 default: return "badge bg-secondary";
             }
         }
+
+        public static bool IsSupervisor(string role) =>
+    !string.IsNullOrWhiteSpace(role) &&
+    role.Equals("Supervisor", StringComparison.OrdinalIgnoreCase);
+
+        public static bool CanReassign(string role) => IsSupervisor(role);
+
     }
 }

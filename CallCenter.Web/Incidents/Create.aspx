@@ -8,6 +8,15 @@
 </head>
 <body>
 <form id="form1" runat="server">
+     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand fw-semibold text-white" 
+       href="~/Default.aspx" 
+       id="HyperLinkHome" 
+       runat="server">📞 Call Center</a>
+    
+  </div>
+</nav>
   <div class="container py-4" style="max-width:900px;">
     <h3 class="mb-3">Nueva Incidencia</h3>
     <asp:ValidationSummary runat="server" CssClass="alert alert-danger py-2" ValidationGroup="inc" />
@@ -65,6 +74,7 @@
 
     <asp:Label ID="lblMsg" runat="server" CssClass="d-block mt-3"></asp:Label>
   </div>
+
 </form>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
