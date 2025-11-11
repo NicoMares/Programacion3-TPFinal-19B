@@ -7,135 +7,123 @@ namespace CallCenter.Web.Incidents
     public partial class List : System.Web.UI.Page
     {
         private string _cs;
-        private Guid _userId = Guid.Empty;
-        private string _role = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            System.Web.UI.ValidationSettings.UnobtrusiveValidationMode =
-                System.Web.UI.UnobtrusiveValidationMode.None;
-
-            _cs = System.Configuration.ConfigurationManager.ConnectionStrings["CallCenterDb"].ConnectionString;
+            _cs = System.Configuration.ConfigurationManager
+                    .ConnectionStrings["CallCenterDb"].ConnectionString;
 
             if (!IsPostBack)
-            {
-                LoadUser();
                 BindGrid();
-            }
-        }
-
-        private void LoadUser()
-        {
-            string username = Context.User == null ? "" : Context.User.Identity.Name;
-            if (string.IsNullOrEmpty(username))
-            {
-                Response.Redirect("~/Account/Login.aspx");
-                return;
-            }
-
-            using (var cn = new SqlConnection(_cs))
-            {
-                cn.Open();
-                using (var cmd = new SqlCommand(
-                    "SELECT TOP 1 Id, [Role] FROM dbo.Users WHERE Username=@u AND IsDeleted=0 AND IsBlocked=0;", cn))
-                {
-                    cmd.Parameters.Add("@u", SqlDbType.NVarChar, 100).Value = username;
-                    using (var rd = cmd.ExecuteReader())
-                    {
-                        if (rd.Read())
-                        {
-                            _userId = rd.GetGuid(0);
-                            _role = rd.GetString(1);
-                        }
-                        else
-                        {
-                            Response.Redirect("~/Account/Login.aspx");
-                        }
-                    }
-                }
-            }
-        }
-
-        private void BindGrid()
-        {
-            bool onlyMine = string.Equals(_role, "Telefonista", StringComparison.OrdinalIgnoreCase);
-
-            string sql = @"
-SELECT i.Id,
-       c.Name AS Cliente,
-       t.Name AS Tipo,
-       p.Name AS Prioridad,
-       i.Status,
-       i.CreatedAt,
-       u.Username AS Assignee   -- << mostrar asignado
-FROM dbo.Incidents i
-JOIN dbo.Customers     c ON c.Id  = i.CustomerId
-JOIN dbo.IncidentTypes t ON t.Id  = i.IncidentTypeId
-JOIN dbo.Priorities    p ON p.Id  = i.PriorityId
-LEFT JOIN dbo.Users    u ON u.Id  = i.AssignedToUserId  -- << puede ser null
-WHERE 1=1
-";
-
-            if (onlyMine) sql += " AND i.AssignedToUserId = @uid";
-            if (!string.IsNullOrWhiteSpace(txtSearch.Text))
-                sql += " AND (c.Name LIKE @q OR i.Problem LIKE @q OR CONVERT(NVARCHAR(36), i.Id) LIKE @q)";
-            if (!string.IsNullOrEmpty(ddlStatus.SelectedValue))
-                sql += " AND i.Status = @st";
-            if (!string.IsNullOrEmpty(ddlPriority.SelectedValue))
-                sql += " AND i.PriorityId = @pr";
-            if (!string.IsNullOrEmpty(ddlType.SelectedValue))
-                sql += " AND i.IncidentTypeId = @tp";
-
-            sql += " ORDER BY i.CreatedAt DESC;";
-
-            using (var cn = new SqlConnection(_cs))
-            using (var cmd = new SqlCommand(sql, cn))
-            {
-                cn.Open();
-
-                if (onlyMine)
-                    cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = _userId;
-                if (!string.IsNullOrWhiteSpace(txtSearch.Text))
-                    cmd.Parameters.Add("@q", SqlDbType.NVarChar, 300).Value = "%" + txtSearch.Text.Trim() + "%";
-                if (!string.IsNullOrEmpty(ddlStatus.SelectedValue))
-                    cmd.Parameters.Add("@st", SqlDbType.NVarChar, 20).Value = ddlStatus.SelectedValue;
-                if (!string.IsNullOrEmpty(ddlPriority.SelectedValue))
-                    cmd.Parameters.Add("@pr", SqlDbType.Int).Value = int.Parse(ddlPriority.SelectedValue);
-                if (!string.IsNullOrEmpty(ddlType.SelectedValue))
-                    cmd.Parameters.Add("@tp", SqlDbType.Int).Value = int.Parse(ddlType.SelectedValue);
-
-                var dt = new DataTable();
-                using (var da = new SqlDataAdapter(cmd)) da.Fill(dt);
-                gv.DataSource = dt;
-                gv.DataBind();
-
-                lblInfo.CssClass = "text-muted";
-                lblInfo.Text = (onlyMine ? "Mostrando incidencias asignadas a mí" : "Mostrando todas las incidencias")
-                               + " (" + dt.Rows.Count + ")";
-            }
-        }
-
-
-        protected void gv_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
-        {
-            gv.PageIndex = e.NewPageIndex;
-            BindGrid();
         }
 
         protected void btnFilter_Click(object sender, EventArgs e)
         {
-            gv.PageIndex = 0;
             BindGrid();
         }
 
+        private void BindGrid()
+        {
+            Guid userId = Guid.Empty;
+            string role = null;
+            string username = Context?.User?.Identity?.Name ?? "";
+            if (!string.IsNullOrWhiteSpace(username))
+            {
+                using (var cn = new SqlConnection(_cs))
+                {
+                    cn.Open();
+                    using (var cmd = new SqlCommand(
+                        "SELECT TOP 1 Id, [Role] FROM dbo.Users WHERE Username=@u AND IsDeleted=0 AND IsBlocked=0;", cn))
+                    {
+                        cmd.Parameters.Add("@u", SqlDbType.NVarChar, 100).Value = username;
+                        using (var rd = cmd.ExecuteReader())
+                        {
+                            if (rd.Read())
+                            {
+                                userId = rd.GetGuid(0);
+                                role = rd.GetString(1);
+                            }
+                        }
+                    }
+                }
+            }
+
+            bool onlyMine = string.Equals(role, "Telefonista", StringComparison.OrdinalIgnoreCase);
+
+            string status = null, priority = null, q = null;
+            try { status = ddlStatus?.SelectedValue; } catch { }
+            try { priority = ddlPriority?.SelectedValue; } catch { }
+            try { q = txtSearch?.Text?.Trim(); } catch { }
+
+            var dt = new DataTable();
+            using (var cn = new SqlConnection(_cs))
+            {
+                cn.Open();
+                using (var cmd = new SqlCommand(@"
+SELECT i.Id, i.CreatedAt, i.Status, i.Problem,
+       c.Name   AS CustomerName,
+       t.Name   AS TypeName,
+       p.Name   AS PriorityName,
+       u.Username AS AssignedTo
+FROM dbo.Incidents i
+JOIN dbo.Customers     c ON c.Id = i.CustomerId
+JOIN dbo.IncidentTypes t ON t.Id = i.IncidentTypeId
+JOIN dbo.Priorities    p ON p.Id = i.PriorityId
+LEFT JOIN dbo.Users    u ON u.Id = i.AssignedToUserId
+WHERE
+    -- restricción por rol
+    (@onlyMine = 0 OR i.AssignedToUserId = @uid)
+    -- filtros opcionales
+    AND (@status IS NULL OR i.Status = @status)
+    AND (@priority IS NULL OR p.Name = @priority)
+    AND (
+         @q IS NULL
+         OR c.Name LIKE '%' + @q + '%'
+         OR i.Problem LIKE '%' + @q + '%'
+         OR t.Name LIKE '%' + @q + '%'
+         OR u.Username LIKE '%' + @q + '%'
+        )
+ORDER BY i.CreatedAt DESC;", cn))
+                {
+                    cmd.Parameters.Add("@onlyMine", SqlDbType.Bit).Value = onlyMine ? 1 : 0;
+                    cmd.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value =
+                        (userId == Guid.Empty ? (object)DBNull.Value : userId);
+
+                    cmd.Parameters.Add("@status", SqlDbType.NVarChar, 50).Value =
+                        string.IsNullOrWhiteSpace(status) ? (object)DBNull.Value : status;
+                    cmd.Parameters.Add("@priority", SqlDbType.NVarChar, 50).Value =
+                        string.IsNullOrWhiteSpace(priority) ? (object)DBNull.Value : priority;
+                    cmd.Parameters.Add("@q", SqlDbType.NVarChar, 200).Value =
+                        string.IsNullOrWhiteSpace(q) ? (object)DBNull.Value : q;
+
+                    using (var rd = cmd.ExecuteReader())
+                        dt.Load(rd);
+                }
+            }
+
+            if (!dt.Columns.Contains("CreatedAtLocal"))
+                dt.Columns.Add("CreatedAtLocal", typeof(DateTime));
+            foreach (DataRow r in dt.Rows)
+                r["CreatedAtLocal"] = Convert.ToDateTime(r["CreatedAt"]).ToLocalTime();
+
+            gvIncidents.DataSource = dt;
+            gvIncidents.DataBind();
+        }
         protected void btnClear_Click(object sender, EventArgs e)
         {
-            txtSearch.Text = "";
-            ddlStatus.ClearSelection();
-            ddlPriority.ClearSelection();
-            ddlType.ClearSelection();
-            gv.PageIndex = 0;
+            if (txtSearch != null) txtSearch.Text = "";
+            if (ddlStatus != null) ddlStatus.ClearSelection();
+            if (ddlPriority != null) ddlPriority.ClearSelection();
+            if (ddlType != null) ddlType.ClearSelection();
+
             BindGrid();
         }
+        protected void gv_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
+        {
+            gvIncidents.PageIndex = e.NewPageIndex;
+            BindGrid();
+        }
+
+
     }
 }

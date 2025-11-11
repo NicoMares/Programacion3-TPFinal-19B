@@ -24,13 +24,31 @@ namespace CallCenter.Web.Incidents
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// Control HyperLinkHome.
+        /// Control hlHome.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor HyperLinkHome;
+        protected global::System.Web.UI.WebControls.HyperLink hlHome;
+
+        /// <summary>
+        /// Control hlBackTop.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hlBackTop;
+
+        /// <summary>
+        /// Control hlBack.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hlBack;
 
         /// <summary>
         /// Control txtSearch.
@@ -96,12 +114,12 @@ namespace CallCenter.Web.Incidents
         protected global::System.Web.UI.WebControls.Label lblInfo;
 
         /// <summary>
-        /// Control gv.
+        /// Control gvIncidents.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gv;
+        protected global::System.Web.UI.WebControls.GridView gvIncidents;
     }
 }

@@ -6,31 +6,45 @@
   <title>Incidencias</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
 </head>
-<body>
+<body class="bg-light">
 <form id="form1" runat="server">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container">
-    <a class="navbar-brand fw-semibold text-white" 
-       href="~/Default.aspx" 
-       id="HyperLinkHome" 
-       runat="server">📞 Call Center</a>
-    
-  </div>
-</nav>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <asp:HyperLink ID="hlHome" runat="server"
+                     NavigateUrl="~/Default.aspx"
+                     CssClass="navbar-brand fw-semibold text-white">
+        📞 Call Center
+      </asp:HyperLink>
+      <div class="ms-auto">
+        <asp:HyperLink ID="hlBackTop" runat="server"
+                       NavigateUrl="~/Default.aspx"
+                       CssClass="btn btn-outline-light btn-sm">
+          Volver
+        </asp:HyperLink>
+      </div>
+    </div>
+  </nav>
+
   <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h3 class="mb-0">Incidencias</h3>
-      <a runat="server" href="~/Default.aspx" class="btn btn-outline-secondary">Volver</a>
+      <asp:HyperLink ID="hlBack" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn btn-outline-secondary">
+        Volver al panel
+      </asp:HyperLink>
     </div>
 
-    <div class="card mb-3">
+    <!-- Filtros -->
+    <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <div class="row g-3">
           <div class="col-md-4">
             <label class="form-label">Buscar</label>
             <asp:TextBox ID="txtSearch" runat="server" CssClass="form-control"
-              placeholder="Cliente, problema o ID..." />
+                         placeholder="Cliente, problema, tipo o usuario..." />
           </div>
           <div class="col-md-3">
             <label class="form-label">Estado</label>
@@ -58,34 +72,45 @@
         </div>
         <div class="mt-3 d-flex gap-2">
           <asp:Button ID="btnFilter" runat="server" Text="Filtrar" CssClass="btn btn-primary"
-            OnClick="btnFilter_Click" UseSubmitBehavior="false" />
+                      OnClick="btnFilter_Click" UseSubmitBehavior="false" />
           <asp:Button ID="btnClear" runat="server" Text="Limpiar" CssClass="btn btn-outline-secondary"
-            OnClick="btnClear_Click" UseSubmitBehavior="false" />
+                      OnClick="btnClear_Click" UseSubmitBehavior="false" />
         </div>
       </div>
     </div>
 
     <asp:Label ID="lblInfo" runat="server" CssClass="d-block mb-2 text-muted"></asp:Label>
 
+    <!-- Tabla -->
     <div class="table-responsive">
-     <asp:GridView ID="gv" runat="server" CssClass="table table-striped table-hover"
-    AutoGenerateColumns="False" AllowPaging="True" PageSize="15"
-    OnPageIndexChanging="gv_PageIndexChanging">
-  <Columns>
-    <asp:BoundField DataField="Id" HeaderText="ID" />
-    <asp:BoundField DataField="Cliente" HeaderText="Cliente" />
-    <asp:BoundField DataField="Tipo" HeaderText="Tipo" />
-    <asp:BoundField DataField="Prioridad" HeaderText="Prioridad" />
-    <asp:BoundField DataField="Status" HeaderText="Estado" />
-    <asp:BoundField DataField="Assignee" HeaderText="Asignado a" />
-    <asp:BoundField DataField="CreatedAt" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy HH:mm}" />
-    <asp:HyperLinkField HeaderText="Detalle" DataNavigateUrlFields="Id"
-        DataNavigateUrlFormatString="Details.aspx?id={0}" Text="Ver" />
-  </Columns>
-</asp:GridView>
-
+      <asp:GridView ID="gvIncidents" runat="server"
+                    CssClass="table table-striped table-hover shadow-sm"
+                    AutoGenerateColumns="False" GridLines="None"
+                    AllowPaging="True" PageSize="15"
+                    OnPageIndexChanging="gv_PageIndexChanging">
+        <Columns>
+          <asp:BoundField DataField="Id" HeaderText="ID" />
+          <asp:BoundField DataField="CustomerName" HeaderText="Cliente" />
+          <asp:BoundField DataField="TypeName" HeaderText="Tipo" />
+          <asp:BoundField DataField="PriorityName" HeaderText="Prioridad" />
+          <asp:BoundField DataField="Status" HeaderText="Estado" />
+          <asp:BoundField DataField="AssignedTo" HeaderText="Asignado a" />
+          <asp:BoundField DataField="Problem" HeaderText="Descripción" />
+          <asp:BoundField DataField="CreatedAtLocal" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy HH:mm}" />
+          <asp:TemplateField HeaderText="Acción">
+            <ItemTemplate>
+              <asp:HyperLink ID="hlDetails" runat="server"
+                             NavigateUrl='<%# "~/Incidents/Details.aspx?id=" + Eval("Id") %>'
+                             CssClass="btn btn-sm btn-outline-primary">
+                Ver detalle
+              </asp:HyperLink>
+            </ItemTemplate>
+          </asp:TemplateField>
+        </Columns>
+      </asp:GridView>
     </div>
   </div>
+
 </form>
 </body>
 </html>
