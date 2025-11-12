@@ -5,6 +5,8 @@
   <meta charset="utf-8" />
   <title>Restablecer contraseña</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+
 </head>
 <body>
 <form id="form1" runat="server">

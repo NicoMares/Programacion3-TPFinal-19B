@@ -6,6 +6,9 @@
 <head runat="server">
   <meta charset="utf-8" />
   <title>Inicio | CallCenter</title>
+    <link href="~/Content/site.css" rel="stylesheet" />
+
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>

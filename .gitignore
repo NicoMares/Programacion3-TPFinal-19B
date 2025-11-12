@@ -16,7 +16,11 @@
 *.la
 *.dll
 *.exe
-
+bin/
+obj/
+*.pdb
+*.cache
+*.dll
 # Carpetas de salida de compilación
 [Bb]in/
 [Oo]bj/

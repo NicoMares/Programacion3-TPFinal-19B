@@ -1,0 +1,199 @@
+﻿/* ============================================================
+   GLOBAL STYLES - Call Center WebApp
+   Estética moderna: sombras suaves, bordes redondeados,
+   colores claros, excelente contraste y tipografía cuidada.
+   ============================================================ */
+
+/* ===== Tipografía y resets ===== */
+body {
+    background-color: #f5f7fa;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.navbar-brand {
+    font-size: 1.35rem !important;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.navbar .btn {
+    border-radius: .4rem;
+}
+
+/* ===== Cards ===== */
+.card {
+    border: 1px solid #e1e5ea;
+    border-radius: .75rem !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    transition: transform .08s ease-in-out;
+    background-color: #fff;
+}
+
+    .card:hover {
+        transform: translateY(-2px);
+    }
+
+.card-header {
+    font-weight: 600;
+    background: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    border-radius: .45rem !important;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-outline-primary {
+    border-color: #0d6efd;
+    color: #0d6efd;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #0d6efd;
+        color: #fff;
+    }
+
+/* ===== Tabla ===== */
+.table {
+    border-radius: .6rem;
+    overflow: hidden;
+}
+
+    .table thead th {
+        background-color: #eef1f7 !important;
+        font-weight: 600;
+        color: #344767;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f5faff !important;
+    }
+
+    .table td, .table th {
+        vertical-align: middle !important;
+    }
+
+/* ===== Filtros ===== */
+.form-label {
+    font-weight: 600;
+    color: #344767;
+}
+
+.form-control, .form-select {
+    border-radius: .45rem !important;
+    border: 1px solid #cfd6e0;
+}
+
+/* ===== Badges (para estados) ===== */
+.badge {
+    padding: .45rem .65rem;
+    font-size: .75rem;
+    border-radius: .4rem;
+}
+
+/* ===== Chat ===== */
+.chat-box {
+    max-height: 420px;
+    overflow-y: auto;
+    border: 1px solid #e1e5ea;
+    border-radius: .75rem;
+    background-color: #ffffff;
+    padding: .75rem;
+}
+
+.msg {
+    padding: .6rem .8rem;
+    margin-bottom: .55rem;
+    border-radius: .65rem;
+    font-size: .95rem;
+    max-width: 85%;
+    word-wrap: break-word;
+}
+
+    .msg.me {
+        background-color: #e7f1ff;
+        align-self: flex-end;
+    }
+
+    .msg.other {
+        background-color: #f1f3f5;
+    }
+
+.meta {
+    font-size: .75rem;
+    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: .2rem;
+}
+
+/* ===== Right panel (acciones en detalle) ===== */
+.right-panel, .ticket-card {
+    border-radius: .75rem;
+    border: 1px solid #e1e5ea;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,.03);
+}
+
+    .right-panel button {
+        border-radius: .5rem !important;
+    }
+
+/* ===== Links ===== */
+a {
+    text-decoration: none !important;
+}
+
+    a:hover {
+        opacity: .8;
+    }
+
+/* ===== Inputs y textareas ===== */
+textarea.form-control {
+    resize: vertical;
+}
+
+/* ===== Scrollbars especiales ===== */
+.chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #c1c7d0;
+    border-radius: 3px;
+}
+
+/* ===== File list (attachments) ===== */
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #eaedf2;
+}
+
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+
+/* ===== Global spacing ===== */
+.container {
+    max-width: 1220px;
+}

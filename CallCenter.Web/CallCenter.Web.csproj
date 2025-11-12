@@ -60,6 +60,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\Forgot.aspx" />
     <Content Include="Account\Reset.aspx" />
+    <Content Include="Content\site.css" />
     <Content Include="Customers\Create.aspx" />
     <Content Include="Customers\List.aspx" />
     <Content Include="Incidents\Create.aspx" />

@@ -7,6 +7,8 @@
 <head runat="server">
     <meta charset="utf-8" />
     <title>Crear cuenta | CallCenter</title>
+    <link href="~/Content/site.css" rel="stylesheet" />
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style> body{background:#f5f7fb;} .auth-card{max-width:480px;} </style>
 </head>
