@@ -67,7 +67,7 @@
         </asp:HyperLink>
       </div>
 
-      <asp:Label ID="Label1" runat="server" CssClass="d-block mt-3 text-center fw-semibold"></asp:Label>
+     <asp:Label ID="lblMsg" runat="server" CssClass="d-block mt-3 text-center fw-semibold"></asp:Label>
  
 
  
