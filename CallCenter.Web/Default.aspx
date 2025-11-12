@@ -35,6 +35,11 @@
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card shadow-sm h-100">
           <div class="card-body">
+
+
+
+                      <!-- Card: Nueva Incidencias (Telefonista,ADM, SUPR) -->
+
             <h5 class="card-title">Nueva Incidencia</h5>
             <p class="card-text text-muted">Ingresar nuevo reclamo de cliente.</p>
             <asp:HyperLink ID="hlCreate" runat="server" NavigateUrl="~/Incidents/Create.aspx" CssClass="btn btn-primary">
@@ -45,7 +50,7 @@
       </div>      
 
 
-        <!-- Card: Ver Incidencias -->
+        <!-- Card: Listado Incidencias (Telefonista, ADM, SUPR) -->
         <div class="col-12 col-md-6 col-lg-4">
           <div class="card shadow-sm h-100">
             <div class="card-body">
@@ -57,11 +62,12 @@
             </div>
           </div>
         </div>
-                <!-- Card: Crear Cliente -->
+
+                <!-- Card: Crear Cliente (Telefonista,ADM, SUPR)-->
 <div class="col-12 col-md-6 col-lg-4">
   <div class="card shadow-sm h-100">
     <div class="card-body">
-      <h5 class="card-title">Clientes</h5>
+      <h5 class="card-title"> Nuevo Cliente </h5>
       <p class="card-text text-muted">Dar de alta un nuevo cliente.</p>
       <asp:HyperLink ID="hlNewCustomer" runat="server" NavigateUrl="~/Customers/Create.aspx" CssClass="btn btn-success">
         Crear cliente
@@ -70,11 +76,11 @@
   </div>
 </div>
 
-<!-- Card: Ver Clientes -->
+<!-- Card: Ver Clientes (Telefonista,ADM, SUPR)-->
 <div class="col-12 col-md-6 col-lg-4">
   <div class="card shadow-sm h-100">
     <div class="card-body">
-      <h5 class="card-title">Listar Clientes</h5>
+      <h5 class="card-title">Lista de Clientes</h5>
       <p class="card-text text-muted">Listado y búsqueda de clientes.</p>
       <asp:HyperLink ID="hlListCustomers" runat="server"
           NavigateUrl="~/Customers/List.aspx"
@@ -85,6 +91,24 @@
   </div>
 </div>
        
+         <!-- Listas de Usuarios (ADM Y Supervisor) -->
+ <div class="col-12 col-md-6 col-lg-4">
+   <asp:Panel ID="pnlListUsers" runat="server" Visible="false">
+     <div class="card shadow-sm h-100">
+       <div class="card-body">
+         <h5 class="card-title">Lista de Usuarios</h5>
+         <p class="card-text text-muted">Usuarios de tipo Telefonista. Bloquear/Desbloquear acceso.</p>
+         <asp:HyperLink ID="hlListUsers" runat="server" 
+                        NavigateUrl="~/Users/List.aspx" 
+                        CssClass="btn btn-primary">
+           Ver Usuarios
+         </asp:HyperLink>
+       </div>
+     </div>
+   </asp:Panel>
+ </div>
+
+
 
         <!-- Crear Usuario (solo Supervisor) -->
 <div class="col-12 col-md-6 col-lg-4">
@@ -105,21 +129,9 @@
 
 
 
-        <div class="col-12 col-md-6 col-lg-4">
-          <asp:Panel ID="pnlListUsers" runat="server" Visible="false">
-            <div class="card shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Listar Usuarios</h5>
-                <p class="card-text text-muted">Usuarios de tipo Telefonista. Bloquear/Desbloquear acceso.</p>
-                <asp:HyperLink ID="hlListUsers" runat="server" 
-                               NavigateUrl="~/Users/List.aspx" 
-                               CssClass="btn btn-primary">
-                  Ver Usuarios
-                </asp:HyperLink>
-              </div>
-            </div>
-          </asp:Panel>
-        </div>
+
+
+       
 
 
         

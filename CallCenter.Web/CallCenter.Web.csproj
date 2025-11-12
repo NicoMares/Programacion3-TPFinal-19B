@@ -60,7 +60,6 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\Forgot.aspx" />
     <Content Include="Account\Reset.aspx" />
-    <Content Include="Account\RoleAssign.aspx" />
     <Content Include="Customers\Create.aspx" />
     <Content Include="Customers\List.aspx" />
     <Content Include="Incidents\Create.aspx" />
@@ -69,13 +68,13 @@
     <Content Include="Incidents\List.aspx" />
     <Content Include="Users\Create.aspx" />
     <Content Include="Users\List.aspx" />
+    <Content Include="Users\Modify.aspx" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Content Include="Default.aspx" />
     <Content Include="Account\Login.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account\AssignRoleService.cs" />
     <Compile Include="Account\Register.aspx.cs">
       <DependentUpon>Register.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -96,10 +95,6 @@
     </Compile>
     <Compile Include="Account\Reset.aspx.designer.cs">
       <DependentUpon>Reset.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Account\RoleAssign.aspx.cs">
-      <DependentUpon>RoleAssign.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Customers\Create.aspx.cs">
       <DependentUpon>Create.aspx</DependentUpon>
@@ -177,6 +172,11 @@
     <Compile Include="Users\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Users\Modify.aspx.cs">
+      <DependentUpon>Modify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users\ModifyServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -16,7 +16,7 @@
        runat="server">📞 Call Center</a>
     
   </div>
-</nav>v>
+</nav>
 </nav>
   <div class="container py-4" style="max-width:760px;">
     <h3 class="mb-3">Nuevo cliente</h3>
