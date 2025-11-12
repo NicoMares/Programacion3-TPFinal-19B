@@ -20,13 +20,23 @@
     
   </div>
 </nav>
+    
 <form id="form1" runat="server" class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">Usuarios · Telefonistas</h3>
+
+       <!-- Card:boton Volver -->
     <asp:HyperLink ID="hlBack" runat="server" NavigateUrl="~/Default.aspx" CssClass="btn btn-outline-secondary">
       Volver al panel
     </asp:HyperLink>
   </div>
+    <!-- Card:boton Modficar Usuarios -->
+    <asp:HyperLink ID="hlModifyUser" runat="server" NavigateUrl="~/Users/Modify.aspx" CssClass="btn btn-primary ms-2">
+  Modificar usuario
+</asp:HyperLink>
+
+
+
 
   <asp:Label ID="lblMsg" runat="server" CssClass="d-block mb-3"></asp:Label>
 
