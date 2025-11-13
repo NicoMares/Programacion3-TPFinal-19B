@@ -1,0 +1,44 @@
+USE [Progra3_TPFinal_19B_DB];
+GO
+
+-- Limpio si ya existen estos usuarios de prueba (opcional)
+DELETE FROM dbo.Users
+WHERE Username IN (N'telefonista', N'admin', N'supervisor');
+GO
+
+-- Alta de usuarios base:
+--  - telefonista@telefonista / telefonista / Rol: Telefonista
+--  - admin@admin             / admin       / Rol: Administrador
+--  - supervisor@supervisor   / supervisor  / Rol: Supervisor
+
+INSERT INTO dbo.Users
+(
+    Username,
+    FullName,
+    Role,
+    PasswordHash,   -- acá estamos guardando la contraseña en texto plano
+    Email
+)
+VALUES
+(
+    N'telefonista',
+    N'Usuario Telefonista',
+    N'Telefonista',
+    N'telefonista',
+    N'telefonista@telefonista'
+),
+(
+    N'admin',
+    N'Usuario Administrador',
+    N'Administrador',
+    N'admin',
+    N'admin@admin'
+),
+(
+    N'supervisor',
+    N'Usuario Supervisor',
+    N'Supervisor',
+    N'supervisor',
+    N'supervisor@supervisor'
+);
+GO
